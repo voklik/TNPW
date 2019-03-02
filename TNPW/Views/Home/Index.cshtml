@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div>
+    nasrat
+    <a href="@Url.Action("Index","Home")">seru na tnpw</a> <br/>
+    <img url="~/images/obrazek.jpg"  alt="Náhled0" width="500" height="600"/><br />
+    <img src="@Url.Content("~/images/obrazek.jpg")" alt="Náhled1" height="250px" width="250px" /><br />
+    <img src="~/images/obrazek.jpg"  alt="Náhled2" height="250px" width="250px" /><br />
+    @Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images//obrazek.jpg")
+
+</div>
+
+

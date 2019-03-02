@@ -1,0 +1,32 @@
+﻿@using DataKnihovna.Model
+@model Hra
+@{
+    ViewBag.Title = "DetailHry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    double aktCena = (1.0 - Model.Sleva);
+    aktCena = aktCena * Model.Cena;
+    double slev = Model.Sleva * 100;
+    String slevicka = String.Concat(slev.ToString(), "%");
+    Double usetreni = Model.Cena - aktCena;
+}
+
+<h2>Detail Hry</h2>
+ID: @DataKnihovna.Utility.Utilita.formalizer(Model.Id) <br />
+Název: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
+Platforma: @DataKnihovna.Utility.Utilita.formalizer(Model.Platforma.Nazev)<br />
+Cena (bez slevy): @DataKnihovna.Utility.Utilita.formalizer(Model.Cena)<br />
+Aktuální sleva: @DataKnihovna.Utility.Utilita.formalizer(Model.Sleva)<br />
+
+<strong>Aktuální cena bez DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCena()) </strong><br />
+<strong>Aktuální cena s DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCenasDPH()) </strong><br />
+Ušetříte: @DataKnihovna.Utility.Utilita.formalizer(Model.usetreni())<br />
+Popis: @DataKnihovna.Utility.Utilita.formalizer(Model.Popis)<br />
+Vydavatel: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
+Skladem: @DataKnihovna.Utility.Utilita.formalizer(Model.Skladem)<br />
+Datum vydání: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydano);<br />
+DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
+
+
+@section Pozice{
+    Právě se nacházíte na detailu hry @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)
+}

@@ -1,0 +1,53 @@
+﻿@using DataKnihovna.Model
+@model IList<Platforma>
+@{
+    ViewBag.Title = "Platforma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Platforma</h2>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach (Platforma platforma in Model)
+        {
+            <tr>
+                <td>
+                    @platforma.Id
+                </td>
+                <td>
+                    @platforma.Nazev
+                </td>
+                
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+
+
+<form>
+    <a href="@Url.Action("NovaPlatforma", "Platforma")" class="btn btn-primary">
+        Vytvořit novou platformu
+    </a>
+</form>
+
+
+
+
+@section Pozice{
+    Právě se nacházíte na seznamu platforem
+    <br />
+
+
+
+}

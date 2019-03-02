@@ -1,0 +1,54 @@
+﻿@using DataKnihovna.Model
+@model IList<Vydavatel>
+@{
+    ViewBag.Title = "Vydavatel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vydavatel</h2>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Název</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Vydavatel vydavatel in Model)
+    {
+        <tr>
+            <td>
+                @vydavatel.Id
+            </td>
+            <td>
+                @vydavatel.Nazev
+            </td>
+                
+        </tr>
+    }
+
+    </tbody>
+
+
+
+</table>
+
+
+<form>
+    <a href="@Url.Action("NovyVydavatel", "Vydavatel")" class="btn btn-primary">
+        Vytvořit nového vydavatele
+    </a>
+</form>
+
+
+
+
+
+@section Pozice{
+    Právě se nacházíte na seznamu her
+    <br />
+
+
+
+}

@@ -1,0 +1,81 @@
+﻿@using DataKnihovna.Model
+@model IList<Hra>
+@{
+    ViewBag.Title = "Hra";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Hry</h2>
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Název</th>
+        <th>Platforma</th>
+        <th>Cena</th>
+        <th>Sleva %</th>
+        <th>Aktuální cena</th>
+        <th>Popis</th>
+        <th>Vydavatel</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Hra hra in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("DetailHry","Hra", new {id=hra.Id})">@hra.Id</a>
+            </td>
+            <td>
+                @hra.Nazev
+            </td>
+            <td>
+                @hra.Platforma.Id
+            </td>
+            <td>
+                @hra.Cena
+            </td>
+            <td>
+                @{ double slev = hra.Sleva * 100;}
+                @slev
+            </td>
+            <td>
+                @{
+                    double aktCena = 1.0 - hra.Sleva;
+                    aktCena = aktCena * hra.Cena;
+                } @aktCena
+            </td>
+            <td>
+                @hra.Popis
+            </td>
+            <td>
+                @hra.Vydavatel.Nazev
+            </td>
+        </tr>
+    }
+
+    </tbody>
+
+
+
+</table>
+
+
+    <form>
+        <a href="@Url.Action("NovaHra", "Hra")" class="btn btn-primary">
+             Vytvořit novou hru
+        </a> 
+    </form>
+
+
+
+
+@section Pozice{
+        Právě se nacházíte na seznamu her
+        <br />
+
+
+
+    }

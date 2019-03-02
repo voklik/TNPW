@@ -1,0 +1,13 @@
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\DataKnihovna.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\DataKnihovna.pdb
+C:\Users\micha\source\repos\TNPW\DataKnihovna\obj\Debug\DataKnihovna.csprojAssemblyReference.cache
+C:\Users\micha\source\repos\TNPW\DataKnihovna\obj\Debug\DataKnihovna.csproj.CoreCompileInputs.cache
+C:\Users\micha\source\repos\TNPW\DataKnihovna\obj\Debug\DataKnihovna.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\obj\Debug\DataKnihovna.pdb
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\Iesi.Collections.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\NHibernate.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\cs\Microsoft.QualityTools.Testing.Fakes.resources.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\obj\Debug\DataKnihovna.csproj.CopyComplete
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\NHibernate.4.0.0.4000.Fakes.dll
+C:\Users\micha\source\repos\TNPW\DataKnihovna\bin\Debug\NHibernate.4.0.0.4000.Fakes.xml

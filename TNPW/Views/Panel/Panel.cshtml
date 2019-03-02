@@ -1,0 +1,54 @@
+﻿@using DataKnihovna.Model
+@{
+
+
+}
+
+
+
+@*
+        <h2>Platformy</h2>
+        @foreach (Platforma plat in ViewBag.platformy)
+    {
+        <a href="#" class="list-group-item">@plat.Nazev</a>
+
+    }
+    <br/>
+
+    <h2>Vydavatele</h2>
+
+        @foreach (Vydavatel vydavatel in ViewBag.vydavatele)
+        {
+            <a href="#" class="list-group-item">@vydavatel.Nazev</a>
+        }*@
+
+
+
+
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Platformy" aria-expanded="false" aria-controls="ukazka-collapse">
+    Platformy
+</button>
+
+<div class="collapse" id="Platformy">
+
+    @foreach (Platforma plat in ViewBag.platformy)
+    {
+        <a href="#" class="list-group-item">@plat.Nazev</a>
+
+    }
+</div>
+
+<br />
+
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Vydavatele" aria-expanded="false" aria-controls="ukazka-collapse">
+    Vydavatele
+</button>
+
+<div class="collapse" id="Vydavatele">
+
+    @foreach (Vydavatel vydavatel in ViewBag.vydavatele)
+    {
+        <a href="#" class="list-group-item">@vydavatel.Nazev</a>
+    }
+</div>
