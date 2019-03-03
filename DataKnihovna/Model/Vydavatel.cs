@@ -14,8 +14,7 @@ namespace DataKnihovna.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public virtual int Id { get; set; }
-        [Required(ErrorMessage = "Název vydavatele je vyžadován)")]
-
+      
         public virtual String Nazev { get; set; }
         public Vydavatel()
         {

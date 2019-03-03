@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using  DataKnihovna.Model;
 
 namespace TNPW.Controllers
 {
@@ -22,5 +23,24 @@ namespace TNPW.Controllers
         {
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult Add(Platforma platforma)
+        {
+            DataKnihovna.DAO.PlatformaDao platformaDao = new DataKnihovna.DAO.PlatformaDao();
+
+            if (ModelState.IsValid)
+            {
+
+                platformaDao.Create(platforma);
+                return RedirectToAction("Platforma");
+            }
+            else
+            {
+                return View("NovyVydavatel", platforma);
+            }
+        }
+
     }
 }

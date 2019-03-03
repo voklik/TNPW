@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataKnihovna.Model;
+using NHibernate.Criterion;
 
 namespace DataKnihovna.DAO
 {
@@ -14,6 +15,15 @@ namespace DataKnihovna.DAO
         {
 
         }
-        
+        public IList<Hra> GetByPlatforma(int id)
+        {
+            return null;
+            // return session.CreateCriteria<Hra>().Add(Restrictions.Eq("Id", id)).UniqueResult<Hra>();
+        }
+        public IList<Hra> GetByVydavatel(int id)
+        {
+            return null;
+            //  return session.CreateCriteria<Hra>().Add(Restrictions.Eq("Id", id)).UniqueResult<Hra>();
+        }
     }
 }

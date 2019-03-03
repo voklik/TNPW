@@ -68,7 +68,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Map\Platforma.hbm.xml" />
+    <EmbeddedResource Include="Map\Platforma.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Map\Vydavatel.hbm.xml" />
   </ItemGroup>
   <ItemGroup>

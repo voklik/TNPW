@@ -3,7 +3,7 @@
                    assembly="DataKnihovna" 
                    namespace="DataKnihovna.Model">
   
-  <class name="Hra" table="Hry">
+  <class name="Hra" table="Hry"  lazy="false">
     <id name="Id" column ="id">
       <generator class="native" />
     </id>
@@ -11,13 +11,13 @@
     <property name="Popis" column="popis" />
     <property name="Cena"  column="cena" />
     <property name="Sleva"  column="sleva" />
-    <many-to-one name="Vydavatel"  column="vydavatel" foreign-key="vydavatel" />
-    <many-to-one name="Platforma"  column="platforma" foreign-key="platforma" />
+    <many-to-one name="Vydavatel"  column="vydavatel" foreign-key="vydavatel"/>
+    <many-to-one name="Platforma"  column="platforma"  foreign-key="platforma" />
     <property name="Ikona"  column="ikona" />
     <property name="TypIkona"  column="typIkony" />
     <property name="Skladem"  column="skladem" />
     <property name="Aktivovano"  column="aktivovano" />
-    <property name="Dph"  column="Dph" />
+    <property name="Dph"  column="dph" />
     <property name="Vydano"  column="datumVydani" />
   </class>
   

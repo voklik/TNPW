@@ -49,9 +49,9 @@ namespace DataKnihovna.Model
         public virtual Boolean Aktivovano { get; set; }
 
 
-     
-     [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public virtual DateTime Vydano { get; set; }
+        [Required(ErrorMessage = "Nastavení data vydání je u hry vyžadováno - stačí text, že neoznámeno)")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        public virtual String Vydano { get; set; }
 
 
         [Required(ErrorMessage = "Nastavení DPH u hry  je vyžadováno)")]

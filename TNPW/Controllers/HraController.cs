@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataKnihovna;
 using DataKnihovna.DAO;
 using DataKnihovna.Model;
-
+using NHibernate.Mapping;
+using TNPW.utility;
 
 namespace TNPW.Controllers
 {
@@ -36,29 +39,65 @@ namespace TNPW.Controllers
             IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
             ViewBag.platformy = platformy;
             ViewBag.vydavatele = vydavatele;
-           // ViewBag.Id = new SelectList(platformy, "Id", "Nazev")
-
-           // ViewBag.platformy = new SelectList(platformy, "Id", "Nazev");
-           // ViewBag.vydavatele = new SelectList(vydavatele, "Id", "Nazev");
-
-
-            return View();
+      return View();
         }
+
         [HttpPost]
-        public ActionResult Add(Hra hra,string _platforma, string _vydavatel, HttpPostedFileBase obrazek)
+        public ActionResult Add(Hra hra, string _platforma, string _vydavatel, HttpPostedFileBase obrazek)
         {
-            PlatformaDao platformaDao = new PlatformaDao();
-          VydavatelDao vydavateleDao = new VydavatelDao();
-          Vydavatel vyd = vydavateleDao.GetById(int.Parse(_vydavatel));
-          Platforma plat = platformaDao.GetById(int.Parse(_platforma));
-          hra.Vydavatel = vyd;
-          hra.Platforma = plat;
+
+            
+                // tato zatracená část musí existovat, jinak by  if (ModelState.IsValid) řval, protože viewbagy by byly prázdné
+                PlatformaDao platformaDao = new PlatformaDao();
+            IList<Platforma> platformy = platformaDao.GetlAll();
+
+            VydavatelDao vydavateleDao = new VydavatelDao();
+            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
+            ViewBag.platformy = platformy;
+            ViewBag.vydavatele = vydavatele;
+        
+
+        Vydavatel vyd;
+          Platforma plat;
+        // hra.Id = new GameDao().getNewId();
+          
             if (ModelState.IsValid)
-            { 
-          //  DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
-           // hryDao.Create(hra);
-            return RedirectToAction("Hra");
-              }
+            {
+                vyd = vydavateleDao.GetById(int.Parse(_vydavatel));
+                plat = platformaDao.GetById(int.Parse(_platforma));
+                hra.Vydavatel = vyd;
+                hra.Platforma = plat;
+                if (obrazek != null)
+                {
+                    if (obrazek.ContentType=="image/jpeg"|| obrazek.ContentType=="image/png")
+                    {
+                        Image image = Image.FromStream(obrazek.InputStream);
+                        if (image.Height > 200 || image.Width > 200)
+                        {
+                            Image smallImage = ImageHelper.ScaleImage(image, 200, 200);
+
+                            Bitmap b = new Bitmap(smallImage);
+                            Guid guid = Guid.NewGuid();
+                            string imageName = guid.ToString() + ".jpg";
+                            b.Save(Server.MapPath("~/uploads/hry/"+imageName),ImageFormat.Jpeg);
+                            smallImage.Dispose();
+                            b.Dispose();
+                            ;
+                            hra.Ikona = imageName;
+                            
+                        }
+                        else
+                        {
+                            obrazek.SaveAs(Server.MapPath("~´/uploads/hry/" + obrazek.FileName));
+                        }
+                    }
+                }
+            
+                DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
+            hryDao.Create(hra);
+            TempData["message-succes"] = "Hra byla vytvořena";
+             return RedirectToAction("Hra");
+            }
             else
             {
                 return View("NovaHra", hra);

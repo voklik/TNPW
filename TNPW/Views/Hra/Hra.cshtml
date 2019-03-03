@@ -9,7 +9,7 @@
 <h2>Hry</h2>
 <table class="table table-bordered table-hover table-condensed">
     <thead>
-    <tr>
+    <tr><th>nahled</th>
         <th>ID</th>
         <th>Název</th>
         <th>Platforma</th>
@@ -24,7 +24,23 @@
     <tbody>
     @foreach (Hra hra in Model)
     {
-        <tr>
+        <tr><td>
+       @if(!string.IsNullOrEmpty(hra.Ikona))
+        {
+        
+            <a href = "@Url.Action("DetailHry", "Hra", new {id = hra.Id})" >
+            <img src="@Url.Content("~/uploads/hry/"+hra.Ikona)"/>
+            </a>
+        }
+  
+            @if(string.IsNullOrEmpty(hra.Ikona))
+            {
+                @Html.Label( "Hra nemá nastavenou ikonu")
+            }
+          
+      
+
+       </td>
             <td>
                 <a href="@Url.Action("DetailHry","Hra", new {id=hra.Id})">@hra.Id</a>
             </td>

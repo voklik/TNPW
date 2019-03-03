@@ -1,14 +1,18 @@
-﻿@using DataKnihovna.Model
+﻿@using System.Collections
+@using DataKnihovna.DAO
+@using DataKnihovna.Model
 @model DataKnihovna.Model.Hra
+
 
 @{
     ViewBag.Title = "NovaHra";
     Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 <h2>NovaHra</h2>
 
-@using (Html.BeginForm("Add", "Hra", FormMethod.Post))
+@using (Html.BeginForm("Add", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 <div class="form-group">
         <label for="inputEmail3" class="col-sm-2 control-label">Nazev</label>
@@ -31,15 +35,19 @@
         <label for="inputPassword3" class="col-sm-2 control-label">Platforma</label>
         <div class="col-sm-10">
             @*   @Html.DropDownListFor(x=>x.Platforma, new SelectList(ViewBag.platformy,"Id", "Nazev"))*@
-            @*@Html.DropDownList("Platforma", new SelectList(ViewBag.platformy, "Id", "Nazev"), new{@class="form-control"})*@
             @*@Html.DropDownListFor(x => x.Platforma,  ViewBag.platformy, "Vyberte platformu", new { @class = "form-control" })*@
             @*@Html.DropDownListFor(x=>x.Platforma.Id,new SelectList(ViewBag.platformy,"Id","Nazev"))*@
             @*    @Html.DropDownListFor(x => x.Platforma, ViewBag.platformy as SelectList, "--Vyberte Platformu --")*@
+            @*@Html.DropDownListFor(x => x.Platforma.Id,new SelectList(ViewBag.platformy, "Id", "Nazev")*@
+            @*@Html.DropDownListFor(x => x.Platforma.Id, (SelectList)ViewBag.platformy)*@
+      
+            @Html.DropDownList("_platforma", new SelectList(@ViewBag.platformy, "Id", "Nazev","id"))
+          @*  @Html.DropDownList("_platforma",new SelectList(@ViewBag.platformy,"Id","Nazev"), new { @class = "form-control" })*@
+           @* @Html.DropDownListFor(x => x.Platforma, new SelectList(@ViewBag.platformy, "id","Nazev",@ViewBag.platformy), new { @class = "form-control" })*@
 
-        
-            @Html.DropDownList("_platforma", new SelectList(ViewBag.platformy, "Id", "Nazev"))
         </div>
-        
+
+
     </div>
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">DPH</label>
@@ -66,28 +74,36 @@
         
     </div>
     <div class="form-group">
-        <label for="inputPassword3">Aktivovat pro zákazníky <div class="col-sm-10">
-            @Html.CheckBoxFor(x=> x.Aktivovano, new{@class = "form-control"})
-            @Html.ValidationMessageFor(x => x.Aktivovano )
-        </div></label>
-       
-        
+    <div class="col-sm-10">
+        <label for="inputPassword3">Aktivovat pro zákazníky
+            <div class="col-sm-10">
+                @Html.CheckBoxFor(x => x.Aktivovano, new {@class = "form-control"})
+                @Html.ValidationMessageFor(x => x.Aktivovano)
+            </div>
+            </label>
+    </div>
+
     </div>
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">Vydavatel</label>
         <div class="col-sm-10">
-          @*  @Html.DropDownList("Vydavatel", new SelectList(ViewBag.vydavatele, "Id", "Nazev"))*@
-            @Html.DropDownList("_vydavatel", new SelectList(ViewBag.vydavatele,"Id","Nazev"),new {@class= "form-control"})
+            @*  @Html.DropDownList("Vydavatel", new SelectList(ViewBag.vydavatele, "Id", "Nazev"))*@
+        
+            @Html.DropDownList("_vydavatel", new SelectList(ViewBag.vydavatele,"Id","Nazev"))
+          @*@Html.DropDownListFor(x => x.Vydavatel, new SelectList( ViewBag.vydavatele, "Id","Nazev"), new { @class = "form-control" })*@
 
         </div>
         
     </div>
     <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Datum vydání</label>
-
-     
-        @Html.TextBoxFor(x => x.Vydano, new { @class = "date-picker" })
-        @Html.ValidationMessageFor(x => x.Vydano)
+       
+        <label for="inputPassword3">
+            Datum vydání - text
+            <div class="col-sm-10">
+                @Html.TextBoxFor(x => x.Vydano, new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Vydano)
+            </div>
+        </label>
     </div>
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">Popis</label>
@@ -100,8 +116,8 @@
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">Obrazek krabičky hry</label>
         <div class="col-sm-10">
-         <input type="file" name="obrazek"/>
-        </div>
+            <input type="file" name="obrazek"/>
+         </div>
         
     </div>
     <div class="form-group">
