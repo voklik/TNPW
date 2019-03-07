@@ -25,7 +25,17 @@ Vydavatel: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydavatel.Nazev)<br />
 Skladem: @DataKnihovna.Utility.Utilita.formalizer(Model.Skladem)<br />
 Datum vydání: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydano);<br />
 DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
-
+@if(!string.IsNullOrEmpty(Model.Ikona))
+{
+<label>Původní ikona</label><br>
+<img src="@Url.Content("~/uploads/hry/"+Model.Ikona)"/>
+      
+}
+  
+@if(string.IsNullOrEmpty(Model.Ikona))
+{
+@Html.Label( "Hra nemá nastavenou ikonu")
+}
 
 @section Pozice{
     Právě se nacházíte na detailu hry @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)
