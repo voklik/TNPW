@@ -44,21 +44,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View(doprava);
         }
 
-        public ActionResult novaPlatba()
-        {
        
-            return View();
-        }
-        public ActionResult novaDoprava()
-        {
-
-            return View();
-        }
-        public ActionResult novaKombinace()
-        {
-
-            return View();
-        }
         public ActionResult smazatKM(String _id)
         {
 

@@ -160,9 +160,9 @@
     <Content Include="Areas\Administrativa\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\editDM.cshtml" />
     <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\editKM.cshtml" />
-    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaPlatba.cshtml" />
-    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaDoprava.cshtml" />
-    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaKombinace.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaPM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaDM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaKM.cshtml" />
     <Content Include="Areas\Administrativa\Views\Ucet\DetailUzivatele.cshtml" />
     <Content Include="Areas\Administrativa\Views\Objednavka\DetailObjednavky.cshtml" />
     <Content Include="Areas\Administrativa\Views\Objednavka\PridatPolozku.cshtml" />
