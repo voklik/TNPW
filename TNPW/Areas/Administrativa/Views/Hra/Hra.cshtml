@@ -1,0 +1,265 @@
+﻿@using DataKnihovna.Model
+@model IList<Hra>
+@{
+    ViewBag.Title = "Hra";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<h2>Hry</h2>
+
+
+@using (Ajax.BeginForm("Search", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+{
+    <input type="text" autocomplete="off" class="form-control" placeholder="Vyhledat podle názvu hry" id="searchBoxNazev" name="nazev" />
+
+    <input type="submit" value="Hledat" class="btn btn-default" />
+}
+@using (Html.BeginForm("Hra", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (@ViewBag.soucasna != null)
+    {
+        @Html.Hidden("_page", (string)@ViewBag.soucasna.ToString())
+
+       
+    }
+
+    <label>Zobrazovat i neaktivní záznamy</label>
+    @Html.CheckBox("vse", "Zobrazovat i neaktivní záznamy")
+    <br />
+    <label> Počet položek na stránku</label>
+    @Html.DropDownList("_itemsOnPage",
+        new SelectList(
+            new List<Object>{
+                new { value = 10 , text = "10 na stránku" },
+                new { value = 20 , text = "20 na stránku"},
+                new { value = 50 , text = "50 na stránku"  },
+                new { value = 100 , text = "100 na stránku"}
+            },
+            "value",
+            "text"
+            )
+        )
+   
+    <br />
+
+    <button type="submit" class="btn btn-primary">Refresh stránky</button>
+}
+<label> Celkem bylo nalezeno @ViewBag.celkem záznamů</label>
+@{
+    if (ViewBag.celkem != 0)
+    {
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>nahled</th>
+                    <th>ID</th>
+                    <th>Název</th>
+                    <th>Platforma</th>
+                    <th>Cena</th>
+                    <th>Sleva %</th>
+                    <th>Aktuální cena</th>
+                    <th>Popis</th>
+                    <th>Vydavatel</th>
+                    <th>možnosti</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Hra hra in Model)
+                {
+                    <tr bgcolor="@(hra.Aktivovano==false? "#854747" : "")">
+                        <td>
+                            @if (!string.IsNullOrEmpty(hra.Ikona))
+                            {
+
+                                <a href="@Url.Action("DetailHry", "Hra", new {id = hra.Id})">
+                                    <img src="@Url.Content("~/uploads/hry/" + hra.Ikona)" />
+                                </a>
+                            }
+
+                            @if (string.IsNullOrEmpty(hra.Ikona))
+                            {
+                                @Html.Label("Hra nemá nastavenou ikonu")
+                            }
+
+
+
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetailHry", "Hra", new {id = hra.Id})">@hra.Id</a>
+                        </td>
+                        <td>
+                            @hra.Nazev
+                        </td>
+                        <td>
+                            @hra.Platforma.Id
+                        </td>
+                        <td>
+                            @hra.Cena
+                        </td>
+                        <td>
+                            @{ double slev = hra.Sleva * 100; }
+                            @slev
+                        </td>
+                        <td>
+                            @{
+                                double aktCena = 1.0 - hra.Sleva;
+                                aktCena = aktCena * hra.Cena;
+                            }
+                            @aktCena
+                        </td>
+                        <td>
+                            @hra.Popis
+                        </td>
+                        <td>
+                            @hra.Vydavatel.Nazev
+                        </td>
+                        <td>
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+
+                                    <td>
+                                        @* //aby nikdo nemohl to udělat přes url *@
+                                        @using (Html.BeginForm("EditHra", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                               @Html.Hidden("_id", @hra.Id)
+
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Editovat hru</button>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @* //aby nikdo nemohl to udělat přes url *@
+                                        @using (Html.BeginForm("delete", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.Hidden("_id", @hra.Id)
+                                           
+                                           
+                                                    if (ViewBag.vse != null)
+                                                     {
+                                                         
+                                                         @Html.Hidden("vse", (string) @ViewBag.vse.ToString())
+                                                     }
+                                                    if(ViewBag.soucasna != null)
+
+                                            {
+                                                @Html.Hidden("_soucasna", (string) @ViewBag.soucasna.ToString())
+                                            }
+                                                     if(ViewBag.perPage != null)
+                                            {
+                                          
+                                                @Html.Hidden("_itemsOnPage", (string) @ViewBag.perPage.ToString())
+                                            }
+
+
+
+                                                            <div class="form-group">
+                                                                <div class="col-sm-offset-2 col-sm-10">
+                                                                    <button type="submit" class="btn btn-primary">Smazat hru</button>
+                                                                </div>
+                                                            </div>
+                                            }
+                                            @using (Html.BeginForm("aktivace", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+                                                @Html.Hidden("_id", @hra.Id)
+                                                if (ViewBag.vse != null)
+                                                {
+                                                         
+                                                    @Html.Hidden("vse", (string) @ViewBag.vse.ToString())
+                                                }
+                                                if(ViewBag.soucasna != null)
+
+                                                {
+                                                    @Html.Hidden("_soucasna", (string) @ViewBag.soucasna.ToString())
+                                                }
+                                                if(ViewBag.perPage != null)
+                                                {
+                                          
+                                                    @Html.Hidden("_itemsOnPage", (string) @ViewBag.perPage.ToString())
+                                                }
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                        @{
+                                                            if (hra.Aktivovano)
+                                                            {
+                                                                <button type="submit" class="btn btn-primary">Deaktivovat hru</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="submit" class="btn btn-primary">Aktivovat hru</button>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            }
+</tr>
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+
+
+        <form>
+            <a href="@Url.Action("NovaHra", "Hra")" class="btn btn-primary">
+                Vytvořit novou hru
+            </a>
+        </form>
+    }
+}
+
+
+<div class="clearfix"></div>
+@if (ViewBag.pages != null)
+{
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.pages; i++)
+        {
+
+        <li class="@(ViewBag.soucasna == i? "active" : "")">
+            @Ajax.ActionLink(i.ToString(), "Hra", new { _page = i, vse = @ViewBag.vse, _itemsOnPage = ViewBag.perPage }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+            &nbsp;
+        </li>
+
+        }
+    </ul>
+    @Ajax.ActionLink("Zobrazit vše", "Hra", new { _page = 1, vse = @ViewBag.vse, _itemsOnPage = ViewBag.celkem }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+      
+}
+
+
+<script type="text/javascript">
+        $(function() {
+            $("#searchBoxNazev").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '@Url.Action("searchHrabyNazev", "Hra")',
+                        dataType: "json",
+                        data: {
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+
+                    });
+                },
+                minLength: 3,
+
+            });
+
+
+        });
+
+
+</script>
+

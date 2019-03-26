@@ -1,0 +1,51 @@
+﻿@using DataKnihovna.Model
+@model IList<Hra>
+@{
+    ViewBag.Title = "Hra";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<h2>Hry</h2>
+
+
+@using (Ajax.BeginForm("SearchProPolozku","Objednavka", new AjaxOptions() { UpdateTargetId = "nalez", InsertionMode = InsertionMode.Replace }))
+{  @Html.Hidden("id", (int)ViewBag.id)
+    <input type="text" autocomplete="off" class="form-control" placeholder="Vyhledat podle názvu hry" id="searchBoxNazev" name="nazev" />
+
+    <input type="submit" value="Hledat" class="btn btn-default" />
+}
+<br/>
+<br/>
+
+<div class="container body-content" id="nalez">
+ 
+
+</div>
+
+<script type="text/javascript">
+        $(function() {
+            $("#searchBoxNazev").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '@Url.Action("searchHrabyNazev", "Hra")',
+                        dataType: "json",
+                        data: {
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+
+                    });
+                },
+                minLength: 3,
+
+            });
+
+
+        });
+
+
+</script>
+

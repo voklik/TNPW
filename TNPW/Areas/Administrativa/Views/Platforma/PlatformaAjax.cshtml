@@ -1,0 +1,81 @@
+﻿@using DataKnihovna.Model
+@model IList<Platforma>
+@{
+    ViewBag.Title = "Platforma";
+
+
+}
+
+<h2>Platforma</h2>
+
+<form>
+    <a href="@Url.Action("NovaPlatforma", "Platforma")" class="btn btn-primary">
+        Vytvořit novou platformu
+    </a>
+</form>
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Počet her</th>
+            <th>Možnost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Platforma platforma in Model)
+        {
+            <tr bgcolor="@(platforma.Aktivovano==false? "#854747" : "")">
+                <td>
+                    @platforma.Id
+                </td>
+                <td>
+                    @platforma.Nazev
+                </td>
+                <td>
+                    <a href="@Url.Action("SearchPlatforma", "Hra", new {id = platforma.Id})">@platforma.Pocet</a>
+
+
+                </td>
+                <td>
+
+                    @using (Ajax.BeginForm("aktivace", "Platforma", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                    {
+                        @Html.Hidden("_id", platforma.Id)
+                        if (ViewBag.vse != null)
+                        {
+
+                            @Html.Hidden("vse", (string)@ViewBag.vse.ToString())
+                        }
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                @{
+                                    if (platforma.Aktivovano)
+                                    {
+                                        <button type="submit" class="btn btn-primary">Deaktivovat platformu</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary">Aktivovat platformu</button>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+
+
+
+
+
+

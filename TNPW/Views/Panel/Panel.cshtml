@@ -34,7 +34,7 @@
 
     @foreach (Platforma plat in ViewBag.platformy)
     {
-        <a href="#" class="list-group-item">@plat.Nazev</a>
+        <a href="#" class="list-group-item">@plat.Nazev (@plat.Pocet)</a>
 
     }
 </div>
@@ -49,6 +49,6 @@
 
     @foreach (Vydavatel vydavatel in ViewBag.vydavatele)
     {
-        <a href="#" class="list-group-item">@vydavatel.Nazev</a>
+    <a href="#" class="list-group-item">@vydavatel.Nazev (@vydavatel.Pocet)</a>
     }
 </div>

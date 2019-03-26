@@ -1,0 +1,118 @@
+﻿@using System.Reflection.Emit
+@using DataKnihovna.Model
+@model Ucet
+@{
+    ViewBag.Title = "Účet";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+<h2>účet: @Model.Login</h2>
+
+Jmeno : @Model.Jmeno  @Model.Prijmeni <br />
+Přezdívka : @Model.Prezdivka <br />
+
+@{
+    if (Model.Aktivovano)
+    {
+        <label>      Účet je aktivován <br /></label>
+    }
+    else
+    {
+        <label>  Účet není aktivován <br /></label>
+    }
+}
+@using (Html.BeginForm("aktivace2", "Ucet", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+{
+    @Html.Hidden("_id", Model.Id)
+    if (Model.Aktivovano)
+    {
+        <button type="submit" class="btn btn-primary">Deaktivovat účet</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary">Aktivovat účet</button>
+    }
+    }
+<hr>
+
+<H1> Adresa </H1>
+@if (@Model.Adresa != null)
+{
+    @Model.Adresa.Mesto
+    @Model.Adresa.PSC
+    @Model.Adresa.UliceCP
+    @Model.Adresa.Zeme}
+else
+{
+<label>Adresa není nastavena</label>
+}
+<hr>
+<br /><br />
+<H2> Objednavky </H2><br />
+@foreach (Objednavka objekt in Model.Objednavky)
+{
+
+                     <a href="@Url.Action("DetailObjednavky", "Objednavka", new {id = objekt.Id})">  <H4>Objednávka č. @objekt.Cislo  </H4></a>
+      
+    <label style="@(@objekt.Stav.Id<=3 ||@objekt.Stav.Id>3? "" : "color:red")">   Stav: @objekt.Stav.Nazev</label><br />
+
+
+    <label>Cena za dopravu: @objekt.CenaDopravy Kč</label> <br />
+    <label>   Cena za způsob zaplacení: @objekt.CenaPlatby Kč</label><br />
+    <label>   Cena celkem: @objekt.CenaCelkem Kč</label><br />
+
+
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Hra</th>
+                <th>Cena za ks</th>
+                <th>Množství</th>
+                <th>Stav</th>
+                @if (objekt.Stav.Id == 1)
+                {
+                    <th>Možnost</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PolozkaObjednavka polozka in objekt.Polozky)
+            {
+                <tr bgcolor="@(polozka.Stav !=null? (polozka.Stav.Id>=9 &&polozka.Stav.Id<=12? "#854747":"") : "")">
+                    <td>
+                        <a href="@Url.Action("DetailHry", "Hra", new {id = polozka.Hra.Id})">@polozka.Hra.Nazev</a>
+
+                    </td>
+                    <td>
+                        @polozka.TehdejsiCena Kč
+                    </td>
+                    <td>
+                        @polozka.Mnozstvi ks
+
+                    </td>
+                    <td>
+                        @if (polozka.Stav != null)
+                        {<label>@polozka.Stav.Nazev</label>}
+                     
+
+                    </td>
+                    @*@if (objekt.Stav.Id == 1 && polozka.Stav==null)
+                    {
+                    <td>
+                      
+                         @Ajax.ActionLink("Požádat o storno","deletePolozku","Objednavka",new{ id = polozka.Id}, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" ,HttpMethod = "POST" }, new { enctype = "multipart/form-data" })
+                     
+                    </td>}*@
+                </tr>
+            }
+
+        </tbody>
+
+
+
+    </table>
+
+    <hr class="maly">
+
+}
+        

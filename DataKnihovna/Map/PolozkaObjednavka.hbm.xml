@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="DataKnihovna" 
+                   namespace="DataKnihovna.Model">
+  
+  <class name="PolozkaObjednavka" table="PolozkyObjednavka"  lazy="false">
+    <id name="Id" column ="id">
+      <generator class="native" />
+    </id>
+    <property name="Aktivovano"  column="aktivovano" />
+    <property name="TehdejsiCena" column="tehdejsiCena" />
+    <property name="ObjednavkaID" column="objednavkaID" />
+    <property name="Mnozstvi"  column="mnozstvi" />
+    <many-to-one name="Hra"  column="hra" foreign-key="hra"/>
+    <many-to-one name="Stav"  column="stav" foreign-key="stav"/>
+  </class>
+  
+</hibernate-mapping>

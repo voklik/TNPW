@@ -5,12 +5,22 @@
 }
 
 <h2>Index</h2>
+@Layout
+@if (TempData["odhlasen"] != null)
+{
+    <p>
+        @TempData["odhlasen"]
+     
+    </p>
+}
 <div>
-  
-    <img url="~/images/obrazek.jpg"  alt="Náhled0" width="500" height="600"/><br />
+
+    <img url="~/images/obrazek.jpg" alt="Náhled0" width="500" height="600" /><br />
     <img src="@Url.Content("~/images/obrazek.jpg")" alt="Náhled1" height="250px" width="250px" /><br />
-    <img src="~/images/obrazek.jpg"  alt="Náhled2" height="250px" width="250px" /><br />
+    <img src="~/images/obrazek.jpg" alt="Náhled2" height="250px" width="250px" /><br />
     @Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images//obrazek.jpg")
+    @Ajax.ActionLink("klik","HorniPanel", "Panel", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "HorniPanel" })
+
 
 </div>
 

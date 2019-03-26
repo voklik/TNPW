@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "LoginPage";
+    Layout = "";
+}
+<head>
+
+    <link href="~/Content/Styl.css" rel="stylesheet">
+</head>
+
+@*<div class="card-body">*@
+<body class="text-center">
+    <h2>Přihlaste se prosím do našeho Eshopu</h2> <br />
+    @if (TempData["error"] != null)
+    {
+        <p>
+            @TempData["error"]
+           
+        </p>
+    }
+@if (TempData["succes"] != null)
+{
+    <p>
+        @TempData["succes"]
+           
+    </p>
+}
+    @using (Html.BeginForm("SignIn", "Login", FormMethod.Post, new {enctype = "multipart/form-data"}))
+    {
+        
+        <label>login </label>
+        @Html.TextBox("login")<br/>
+        <label>Heslo </label>
+        @Html.Password("password")<br/><br/>
+        @*<input type="text" id="login" class="form-control" placeholder="název účtu" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Heslo" required>
+        <div class="checkbox mb-3">
+            <label>
+                @* <input type="checkbox" value="remember-me"> Pamatovat si přihlášení
+            </label>
+        </div>*@
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+             
+                   
+                @Html.CheckBox("trvale")<label for="trvale">Přihlasit trvale</label>
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Přihlásit</button>
+       
+                                        
+     
+     
+    }
+<a class="btn btn-primary" href="@Url.Action("Index","Home")">Zpět do obchodu (bez přihlášení)</a>
+<p class="mt-5 mb-3 text-muted">&copy; 2019-2019</p>
+</body >

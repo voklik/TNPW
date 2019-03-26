@@ -1,0 +1,31 @@
+﻿@using DataKnihovna.Model
+@model DataKnihovna.Model.Platforma
+
+@{
+    ViewBag.Title = "NovaPlatforma";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+
+
+
+<h2>Tvorba nové platformy</h2>
+
+@using (Html.BeginForm("Add", "Platforma", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Název Platformy</label>
+        <div class="col-sm-10">
+
+            @Html.TextBoxFor(x => x.Nazev, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Nazev)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Vytvořit</button>
+        </div>
+    </div>
+}

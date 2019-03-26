@@ -1,0 +1,110 @@
+﻿@using DataKnihovna.Model
+@model IList<Hra>
+@{
+   
+        int objednakva =  @ViewBag.objednavkaid;
+ 
+
+}
+<label> Celkem bylo nalezeno @ViewBag.celkem záznamů</label>
+@{
+    if (ViewBag.celkem != 0)
+    {
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>nahled</th>
+                    <th>ID</th>
+                    <th>Název</th>
+                    <th>Platforma</th>
+                    <th>Cena</th>
+                    <th>Sleva %</th>
+                    <th>Aktuální cena</th>
+                    <th>Popis</th>
+                    <th>Vydavatel</th>
+                    <th>možnosti</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Hra hra in Model)
+                {
+                    <tr bgcolor="@(hra.Aktivovano == false ? "#854747" : "")">
+                        <td>
+                            @if (!string.IsNullOrEmpty(hra.Ikona))
+                            {
+
+                                <a href="@Url.Action("DetailHry", "Hra", new {id = hra.Id})">
+                                    <img src="@Url.Content("~/uploads/hry/" + hra.Ikona)" />
+                                </a>
+                            }
+
+                            @if (string.IsNullOrEmpty(hra.Ikona))
+                            {
+                                @Html.Label("Hra nemá nastavenou ikonu")
+                            }
+
+
+
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DetailHry", "Hra", new {id = hra.Id})">@hra.Id</a>
+                        </td>
+                        <td>
+                            @hra.Nazev
+                        </td>
+                        <td>
+                            @hra.Platforma.Id
+                        </td>
+                        <td>
+                            @hra.Cena
+                        </td>
+                        <td>
+                            @{ double slev = hra.Sleva * 100; }
+                            @slev
+                        </td>
+                        <td>
+                            @{
+                                double aktCena = 1.0 - hra.Sleva;
+                                aktCena = aktCena * hra.Cena;
+                            }
+                            @aktCena
+                        </td>
+                        <td>
+                            @hra.Popis
+                        </td>
+                        <td>
+                            @hra.Vydavatel.Nazev
+                        </td>
+                        <td>
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+
+                                    <td>
+                                        @* //aby nikdo nemohl to udělat přes url *@
+                                        @using (Html.BeginForm("addPolozku", "Objednavka", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.Hidden("idhra", @hra.Id)
+                                            @Html.Hidden("idobjednavka", @objednakva)
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Přidat hru do objednávky</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+
+    }
+
+}

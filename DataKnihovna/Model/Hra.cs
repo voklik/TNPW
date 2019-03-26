@@ -18,13 +18,15 @@ namespace DataKnihovna.Model
         [Required(ErrorMessage = "Popis hry je vyžadován)")]
         public virtual String Popis { get; set; }
 
-        [Required(ErrorMessage = "Nastavení slevy  je vyžadováno)")]
+        [Required(ErrorMessage = "Tento prvek je vyžadován. Zapisuje se desetiný tvar jako X,X)")]
+       
         [Range(0.0,1.0, ErrorMessage ="Sleva může být nastavena od 0.0 až 1.0")]
         public virtual double Sleva { get; set; }
 
-        [Required(ErrorMessage = "Nastavení Ceny  je vyžadováno)")]
-        [Range(0, 100000, ErrorMessage = "Cena může být nastavena od 0 až 100 000 - Jenom celá čísla")]
-        public virtual int Cena { get; set; }
+        [Required(ErrorMessage = "Tento prvek je vyžadován. Zapisuje se desetiný tvar jako X,X)")]
+        [Range(0, 100000, ErrorMessage = "Tento prvek musí být kladný > nastavena od 0 až 100 000 - Zapisuje se desetiný tvar jako X,X)")]
+
+        public virtual Double Cena { get; set; }
 
 //  [Required(ErrorMessage = "Nastavení Platformy  je vyžadováno)")]
         public virtual Platforma Platforma { get; set; }
@@ -32,14 +34,8 @@ namespace DataKnihovna.Model
       //  [Required(ErrorMessage = "Nastavení Vydavatele  je vyžadováno)")]
         public virtual Vydavatel Vydavatel { get; set; }
 
-
-
         public virtual string Ikona { get; set; }
-
-
-        public virtual string TypIkona { get; set; }
-
-
+        
         [Required(ErrorMessage = "Nastavení počtu kopii skladem  je vyžadováno)")]
         [Range(0,100000 , ErrorMessage = "Počet kopii skladem může být nastavena od 0 až 100 000 - Jenom celá čísla")]
         public virtual int Skladem { get; set; }
@@ -54,8 +50,9 @@ namespace DataKnihovna.Model
         public virtual String Vydano { get; set; }
 
 
-        [Required(ErrorMessage = "Nastavení DPH u hry  je vyžadováno)")]
-        [Range(0.0, 1.0, ErrorMessage = "DPH může nabývat hodnot mezi 0.0 až 1.0")]
+        [Required(ErrorMessage = "Tento prvek je vyžadován. Zapisuje se desetiný tvar jako X,X)")]
+
+        [Range(0.0, 1.0, ErrorMessage = "Sleva může být nastavena od 0.0 až 1.0")]
 
         public virtual Double Dph { get; set; }
 

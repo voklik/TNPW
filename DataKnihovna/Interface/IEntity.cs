@@ -9,5 +9,6 @@ namespace DataKnihovna.Interface
 {
   public  interface IEntity
     {    int Id { get; set; }
+         Boolean Aktivovano { get; set; }
     }
 }

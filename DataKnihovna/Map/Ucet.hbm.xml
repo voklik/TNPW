@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="DataKnihovna"
+                   namespace="DataKnihovna.Model">
+
+  <class name="Ucet" table="Ucty">
+    <id name="Id" column ="id">
+      <generator class="native" />
+    </id>
+    <property name="Jmeno" column="jmeno" />
+    <property name="Prijmeni" column="prijmeni" />
+    <property name="Login" column="login" />
+    <property name="Prezdivka" column="prezdivka" />
+    <property name="Heslo" column="heslo" />
+    <property name="Aktivovano"  column="aktivovano" />
+    <many-to-one name="Adresa"  column="adresa" foreign-key="adresa" not-null="false"/>
+    <many-to-one name="RoleUzivatele"  column="role"  foreign-key="role" />
+
+  </class>
+
+</hibernate-mapping>

@@ -41,6 +41,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,12 +53,35 @@
   <ItemGroup>
     <Compile Include="DAO\DaoBase.cs" />
     <Compile Include="DAO\GameDao.cs" />
+    <Compile Include="DAO\DopravaMoznostDao.cs" />
+    <Compile Include="DAO\KombinaceMoznostiDao.cs" />
+    <Compile Include="DAO\ObjednavkaDao.cs" />
+    <Compile Include="DAO\PlatebniMoznostiDao.cs" />
+    <Compile Include="DAO\PolozkaObjednavkaDao.cs" />
+    <Compile Include="DAO\PolozkaKosikDao.cs" />
+    <Compile Include="DAO\AdresaDao.cs" />
+    <Compile Include="DAO\StavDao.cs" />
     <Compile Include="DAO\PlatformaDao.cs" />
+    <Compile Include="DAO\RoleDao.cs" />
+    <Compile Include="DAO\UcetDao.cs" />
+    <Compile Include="DAO\ObrazekDao.cs" />
     <Compile Include="DAO\VydavatelDao.cs" />
     <Compile Include="Interface\IDaoBase.cs" />
     <Compile Include="Interface\IEntity.cs" />
+    <Compile Include="Model\Adresa.cs" />
+    <Compile Include="Model\DopravaMoznost.cs" />
     <Compile Include="Model\Hra.cs" />
+    <Compile Include="Model\KombinaceMoznosti.cs" />
+    <Compile Include="Model\Kosik.cs" />
+    <Compile Include="Model\Objednavka.cs" />
+    <Compile Include="Model\Obrazek.cs" />
+    <Compile Include="Model\PlatetbniMoznost.cs" />
     <Compile Include="Model\Platforma.cs" />
+    <Compile Include="Model\PolozkaObjednavka.cs" />
+    <Compile Include="Model\PolozkaKosik.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\Stav.cs" />
+    <Compile Include="Model\Ucet.cs" />
     <Compile Include="Model\Vydavatel.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +105,57 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Map\Hra.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Ucet.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Role.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Obrazek.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Adresa.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\DopravaMoznost.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\PlatebniMoznost.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\PolozkaKosik.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\KombinaceMoznosti.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Stav.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\PolozkaObjednavka.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Map\Objednavka.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

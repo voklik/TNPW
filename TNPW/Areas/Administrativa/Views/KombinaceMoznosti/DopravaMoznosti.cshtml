@@ -1,0 +1,90 @@
+﻿@using DataKnihovna.Model
+@model IList<DataKnihovna.Model.DopravaMoznost>
+@{
+    ViewBag.Title = "Doprava moznosti";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>Doprava Moznosti</h2>
+
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Popis</th>
+            <th>Cena</th>
+            <th>Moznosti</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DopravaMoznost predmet in Model)
+        {
+            <tr bgcolor="@(predmet.Aktivovano==false? "#854747" : "")">
+                <td>
+                    @predmet.Id
+                </td>
+                <td>
+                    @predmet.Nazev
+                </td>
+                <td>
+                    @predmet.Popis
+
+                </td>
+                <td>
+                    @predmet.Cena
+
+                </td>
+                <td>
+
+                    @using (Ajax.BeginForm("aktivaceDM", "KombinaceMoznosti", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                    {
+                        @Html.Hidden("_id", predmet.Id)
+                        if (ViewBag.vse != null)
+                        {
+
+                            @Html.Hidden("vse", (string)@ViewBag.vse.ToString())
+                        }
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                @{
+                                    if (predmet.Aktivovano)
+                                    {
+                                        <button type="submit" class="btn btn-primary">Deaktivovat</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary">Aktivovat</button>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    }
+                    @using (Html.BeginForm("editDM", "KombinaceMoznosti", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Hidden("_id", predmet.Id)
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Editovat</button>
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+
+
+<form>
+    <a href="@Url.Action("NovaDoprava", "KombinaceMoznosti")" class="btn btn-primary">
+        Vytvořit novou možnost
+    </a>
+</form>

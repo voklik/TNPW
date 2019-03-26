@@ -1,0 +1,58 @@
+﻿@using System.Collections
+@using DataKnihovna.DAO
+@using DataKnihovna.Model
+@model DopravaMoznost
+
+
+@{
+    ViewBag.Title = "Nova dopravni možnosti";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<h2>Nová dopravni možnost  </h2>
+
+@using (Html.BeginForm("addDM", "KombinaceMoznosti", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Aktivovano)
+
+
+    <div class="alert">
+        <span class="closebtn">&times;</span>
+        <strong>POZOR!! </strong>Pro následující políčko pod tímto varováním platí: Pokud použijete desetinou tečku místo desetinné čárky, má to za následek, že hodnota se nastaví na 0,0
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Cena za dopravu</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Cena, new { htmlAttributes = new { @type = "number", @min = "0", @step = "0.01" } })
+            @Html.ValidationMessageFor(x => x.Cena)
+        </div>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Název</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Nazev, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Nazev)
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Popis</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Popis, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Popis)
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Přidat</button>
+        </div>
+    </div>
+
+}

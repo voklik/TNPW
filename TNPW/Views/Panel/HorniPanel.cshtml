@@ -1,0 +1,54 @@
+﻿
+@{
+  
+}
+<a class="navbar-brand" href="#">Start Bootstrap</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="@Url.Action("Index","Home")">Obchod</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Hra","Hra")">Hry</a>
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Platforma","Platforma")">Platformy</a>
+
+
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="@Url.Action("Vydavatel","Vydavatel")">Vydavatelé</a>
+
+
+        </li>
+        @if (User.Identity.Name == "")
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("LoginPage","Login")">přihlásit se</a>
+
+
+            </li>
+
+        }
+  
+        @if (ViewBag.kosik != null)
+        {<li class="nav-item">
+             <a class="nav-link" href="#">@ViewBag.kosik</a>
+         </li>
+
+            }
+        @if (User.Identity.Name != "")
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("SignOut","Login")">odhlásit se @User.Identity.Name</a>
+
+
+            </li>
+        }
+        
+        </ul>
+</div>

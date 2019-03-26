@@ -12,6 +12,7 @@
     <tr>
         <th>ID</th>
         <th>Název</th>
+        <th>možnosti</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +25,40 @@
             <td>
                 @vydavatel.Nazev
             </td>
-                
+            <td>
+                <table border="0" cellspacing="0" cellpadding="0" >
+                    <tr>
+                            
+                        <td>
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("EditVydavatel", "Vydavatel", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                            {
+                                @Html.Hidden("_id", @vydavatel.Id)
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Editovat hru</button>
+                                    </div>
+                                </div>
+                            } </td>     
+                          
+                    </tr>
+                    <tr>
+                        <td>
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("Delete", "Vydavatel", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                            {
+                                @Html.Hidden("_id", @vydavatel.Id)
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Smazat hru</button>
+                                    </div>
+                                </div>
+                            } </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     }
 

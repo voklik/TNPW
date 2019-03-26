@@ -14,7 +14,6 @@
     <many-to-one name="Vydavatel"  column="vydavatel" foreign-key="vydavatel"/>
     <many-to-one name="Platforma"  column="platforma"  foreign-key="platforma" />
     <property name="Ikona"  column="ikona" />
-    <property name="TypIkona"  column="typIkony" />
     <property name="Skladem"  column="skladem" />
     <property name="Aktivovano"  column="aktivovano" />
     <property name="Dph"  column="dph" />

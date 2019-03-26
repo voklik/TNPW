@@ -1,0 +1,103 @@
+﻿@using DataKnihovna.Model
+@model IList<Vydavatel>
+@{
+    ViewBag.Title = "Vydavatel";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>Vydavatel</h2>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Název</th>
+        <th>Možnosti</th>
+        <th>Počet her</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (Vydavatel vydavatel in Model)
+    {
+        <tr bgcolor="@(vydavatel.Aktivovano==false? "#854747" : "")">
+            <td>
+                @vydavatel.Id
+            </td>
+            <td>
+                @vydavatel.Nazev
+            </td>
+            <td>
+                <table border="0" cellspacing="0" cellpadding="0" >
+                    <tr>
+                            
+                        <td>
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("EditVydavatel", "Vydavatel", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                            {
+                                @Html.Hidden("_id", @vydavatel.Id)
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Editovat hru</button>
+                                    </div>
+                                </div>
+                            } 
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("Delete", "Vydavatel", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                            {
+                                @Html.Hidden("_id", @vydavatel.Id)
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Smazat hru</button>
+                                    </div>
+                                </div>
+                            } 
+
+                            @using (Ajax.BeginForm("aktivace", "Vydavatel", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                            {
+                                @Html.Hidden("_id", @vydavatel.Id)
+                               <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        @{
+                                            if (vydavatel.Aktivovano)
+                                            {
+                                        <button type="submit" class="btn btn-primary">Deaktivovat vydavatele</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-primary">Aktivovat vydavatele</button>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <a href="@Url.Action("SearchVydavatel", "Hra", new {id = vydavatel.Id})">@vydavatel.Pocet</a>
+
+            </td>
+        </tr>
+    }
+
+    </tbody>
+
+
+
+</table>
+
+
+<form>
+    <a href="@Url.Action("NovyVydavatel", "Vydavatel")" class="btn btn-primary">
+        Vytvořit nového vydavatele
+    </a>
+</form>
+
+
+
+

@@ -1,0 +1,33 @@
+﻿@model List<String>
+@{
+    ViewBag.Title = "Index";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+<h2>Nalezené problémy</h2>
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+    <tr>
+        <th>Problém</th>
+      
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (String problem in Model)
+    {
+        <tr>
+            <td>
+                @problem
+            </td>
+        
+                
+        </tr>
+    }
+
+    </tbody>
+
+
+
+</table>

@@ -60,12 +60,41 @@ namespace DataKnihovna.DAO
                 transaction.Commit();
             }
         }
+       
         public int getNewId()
         {
         
             int Id = session.QueryOver<T>().List<T>().Max(u => u.Id);
             Id++;
             return Id;
+        }
+
+
+
+        public IList<T> getPaged(int count, int page, out int totalItems,Boolean onlyActive)
+        {
+
+            if (onlyActive == false)
+            {
+                totalItems = session.CreateCriteria<T>()
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+                return session.CreateCriteria<T>()
+                    .SetFirstResult((page - 1) * count)
+                    .SetMaxResults(count)
+                    .List<T>();
+            }
+            else
+            {
+                totalItems = session.CreateCriteria<T>()
+                    .SetProjection((Projections.RowCount())).Add(Restrictions.Eq("Aktivovano", true)).UniqueResult<int>();
+
+                return session.CreateCriteria<T>()
+                    .Add(Restrictions.Eq("Aktivovano", true))
+                    .SetFirstResult((page - 1) * count)
+                    .SetMaxResults(count)
+                    .List<T>();
+            }
         }
     }
 }

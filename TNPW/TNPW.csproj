@@ -103,6 +103,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\administrativa.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -127,6 +128,49 @@
     <Content Include="hibernate.cfg.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Areas\Administrativa\Views\web.config" />
+    <Content Include="Areas\Administrativa\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Panel\DolniPanel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Panel\HorniPanel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Ucet\Uzivatele.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Panel\Panel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Ucet\UzivateleAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\DetailHry.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\EditHra.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\Hra.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\NovaHra.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\HraAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Platforma\NovaPlatforma.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Platforma\Platforma.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Test\Index.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Vydavatel\EditVydavatel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Vydavatel\NovyVydavatel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Vydavatel\Vydavatel.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Vydavatel\VydavatelAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Platforma\PlatformaAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Hra\pridatObrazek.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\KombinaceMoznosti.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\DopravaMoznosti.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\PlatebMoznosti.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\PlatetbniMoznostAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\DopravaMoznostiAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\KombinaceMoznostiAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\editPM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\editDM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\editKM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaPM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaDM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\KombinaceMoznosti\novaKM.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Ucet\DetailUzivatele.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\DetailObjednavky.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\PridatPolozku.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\PridatPolozkuAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\Objednavky.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\ObjednavkyAjax.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\EditObjednavky.cshtml" />
+    <Content Include="Areas\Administrativa\Views\Objednavka\EditPolozky.cshtml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
@@ -138,19 +182,41 @@
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Administrativa\AdministrativaAreaRegistration.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\HraController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\KombinaceMoznostiController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\PanelController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\PlatformaController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\TestController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\UcetController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\VydavatelController.cs" />
+    <Compile Include="Areas\Administrativa\Controllers\ObjednavkaController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UcetController.cs" />
     <Compile Include="utility\ImageHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HraController.cs" />
@@ -161,6 +227,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utility\EshopRoleProvider.cs" />
+    <Compile Include="utility\UcetMembershipProvider.cs" />
+    <Compile Include="utility\Utilityzer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -175,6 +244,11 @@
     <Content Include="Views\Vydavatel\NovyVydavatel.cshtml" />
     <Content Include="Views\Platforma\NovaPlatforma.cshtml" />
     <Content Include="Views\Hra\EditHra.cshtml" />
+    <Content Include="Views\Vydavatel\EditVydavatel.cshtml" />
+    <Content Include="Views\Login\LoginPage.cshtml" />
+    <Content Include="Views\Ucet\Registrace.cshtml" />
+    <Content Include="Views\Panel\HorniPanel.cshtml" />
+    <Content Include="Views\Panel\DolniPanel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -184,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administrativa\Models\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,126 @@
+﻿@using System.Collections
+@using DataKnihovna.DAO
+@using DataKnihovna.Model
+@model Objednavka
+
+
+@{
+    ViewBag.Title = "Editace objednávky";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<h2>Editece Objednavky @Model.Cislo </h2>
+
+@using (Html.BeginForm("edit", "Objednavka", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.Cislo)
+    @Html.HiddenFor(x => x.DatumObjednavky)
+    @Html.HiddenFor(x => x.IdUser)
+    @Html.HiddenFor(x => x.Aktivovano)
+    @Html.HiddenFor(x => x.Adresa.Id)
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Stav</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(x => x.Stav.Id, new SelectList(@ViewBag.stavy, "Id", "Nazev", "id"))
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Typ platby</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(x => x.Platba.Id, new SelectList(@ViewBag.platby, "Id", "Nazev", "id"))
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Typ dopravy</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(x => x.Doprava.Id, new SelectList(@ViewBag.dopravy, "Id", "Nazev", "id"))
+
+        </div>
+    </div>
+
+
+
+    <div class="alert">
+        <span class="closebtn">&times;</span>
+        <strong>POZOR!! </strong>Pro následující políčko pod tímto varováním platí: Pokud použijete desetinou tečku místo desetinné čárky, má to za následek, že hodnota se nastaví na 0,0
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Cena za dopravu</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.CenaDopravy, new { htmlAttributes = new { @type = "number", @min = "0", @step = "0.01" } })
+            @Html.ValidationMessageFor(x => x.CenaDopravy)
+        </div>
+
+    </div>
+    <div class="alert">
+        <span class="closebtn">&times;</span>
+        <strong>POZOR!! </strong>Pro následující políčko pod tímto varováním platí: Pokud použijete desetinou tečku místo desetinné čárky, má to za následek, že hodnota se nastaví na 0,0
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Cena za platbu</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.CenaPlatby, new { htmlAttributes = new { @type = "number", @min = "0", @step = "0.01" } })
+            @Html.ValidationMessageFor(x => x.CenaPlatby)
+        </div>
+
+    </div>
+    <div class="alert">
+        <span class="closebtn">&times;</span>
+        <strong>POZOR!! </strong>Pro následující políčko pod tímto varováním platí: Pokud použijete desetinou tečku místo desetinné čárky, má to za následek, že hodnota se nastaví na 0,0
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Cena celkem</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.CenaCelkem, new { htmlAttributes = new { @type = "number", @min = "0", @step = "0.01" } })
+            @Html.ValidationMessageFor(x => x.CenaCelkem)
+        </div>
+
+    </div>
+    @*<input type=number step=0.01 />*@
+
+
+
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Město</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Adresa.Mesto, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Adresa.Mesto)
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Ulice číslem popisné</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Adresa.UliceCP, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Adresa.UliceCP)
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">PSČ</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Adresa.PSC, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Adresa.PSC)
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Země</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.Adresa.Zeme, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Adresa.Zeme)
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Provést editaci</button>
+        </div>
+    </div>
+
+}

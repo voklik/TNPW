@@ -10,6 +10,13 @@ namespace DataKnihovna.Utility
 {
   public static class Utilita
     {
+        public static void Spojovatel<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        {
+            foreach (var cur in enumerable)
+            {
+                collection.Add(cur);
+            }
+        }
 
         public static String formalizer(String X)
         {
@@ -75,9 +82,9 @@ namespace DataKnihovna.Utility
 
 
 
-
+       
 
 
 
     }
-}
+    }

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="DataKnihovna"
+                   namespace="DataKnihovna.Model">
+
+  <class name="Role" table="Role">
+    <id name="Id" column ="id">
+      <generator class="native" />
+    </id>
+    <property name="Identifikator" column="identifikator" />
+    <property name="Popis" column="popis" />
+    <property name="Aktivovano"  column="aktivovano" />
+  </class>
+
+</hibernate-mapping>

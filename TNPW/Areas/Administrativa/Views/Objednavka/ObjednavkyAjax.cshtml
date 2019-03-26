@@ -1,0 +1,166 @@
+﻿@using DataKnihovna.Model
+@model IList<Objednavka>
+@{
+    ViewBag.Title = "Objednavky";
+ 
+}
+
+<h2>Objednavky</h2>
+
+
+@using (Ajax.BeginForm("searchObjednavkaCislo", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+{
+    <input type="text" autocomplete="off" class="form-control" placeholder="Vyhledat podle názvu hry" id="searchBoxNazev" name="nazev" />
+
+    <input type="submit" value="Hledat" class="btn btn-default" />
+}
+@using (Html.BeginForm("Objednavky", "Objednavka", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (@ViewBag.soucasna != null)
+    {
+        @Html.Hidden("_page", (string)@ViewBag.soucasna.ToString())
+
+
+    }
+
+    <label> Počet položek na stránku</label>
+    @Html.DropDownList("_itemsOnPage",
+        new SelectList(
+            new List<Object>{
+                new { value = 10 , text = "10 na stránku" },
+                new { value = 20 , text = "20 na stránku"},
+                new { value = 50 , text = "50 na stránku"  },
+                new { value = 100 , text = "100 na stránku"}
+            },
+            "value",
+            "text"
+            )
+        )
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Refresh stránky</button>
+}
+<label> Celkem bylo nalezeno @ViewBag.celkem záznamů</label>
+@{
+    if (ViewBag.celkem != 0)
+    {
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+
+                    <th>ID</th>
+                    <th>číslo objednávky</th>
+                    <th>Celková cena</th>
+                    <th>Cena za dopravu</th>
+                    <th>Cena za platbu</th>
+                    <th>Stav</th>
+
+                    <th>možnosti</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Objednavka obj in Model)
+                {
+                    <tr bgcolor="@(obj.Stav.Id>5? "#854747" : "")">
+                        <td>
+                            <a href="@Url.Action("DetailObjednavky", "Objednavka", new {id = obj.Id})">@obj.Id</a>
+
+
+
+                        </td>
+                        <td>
+                            @obj.Cislo
+                        </td>
+                        <td>
+                            @obj.CenaCelkem
+                        </td>
+                        <td>
+                            @obj.CenaDopravy
+                        </td>
+                        <td>
+                            @obj.CenaPlatby
+                        </td>
+                        <td>
+                            @obj.Stav.Nazev
+                        </td>
+
+                        <td>
+                            <table border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+
+                                    <td>
+                                        @* //aby nikdo nemohl to udělat přes url *@
+                                        @using (Html.BeginForm("EditObjednavky", "Objednavka", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.Hidden("id", obj.Id)
+
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Editovat Objednavku</button>
+                                                </div>
+                                            </div>
+                                        }
+
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+
+
+        </table>
+
+    }
+}
+
+
+<div class="clearfix"></div>
+@if (ViewBag.pages != null)
+{
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.pages; i++)
+        {
+
+            <li class="@(ViewBag.soucasna == i? "active" : "")">
+                @Ajax.ActionLink(i.ToString(), "Objednavky", new { _page = i, vse = @ViewBag.vse, _itemsOnPage = ViewBag.perPage }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+                &nbsp;
+            </li>
+
+        }
+    </ul>
+    @Ajax.ActionLink("Zobrazit vše", "Objednavky", new { _page = 1, vse = @ViewBag.vse, _itemsOnPage = ViewBag.celkem }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+
+}
+
+
+<script type="text/javascript">
+        $(function() {
+            $("#searchBoxNazev").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '@Url.Action("searchObjednavkaCislo", "Objednavka")',
+                        dataType: "json",
+                        data: {
+                            query: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+
+                    });
+                },
+                minLength: 3,
+
+            });
+
+
+        });
+
+
+</script>
+

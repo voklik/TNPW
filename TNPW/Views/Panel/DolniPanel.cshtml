@@ -1,0 +1,9 @@
+﻿
+@{
+  }
+<p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+@if (User.IsInRole("pracovnik") || User.IsInRole("admin"))
+{
+<strong>   <a href="@Url.Action("Index", "Home", new {area = "Administrativa"})">vstup do administravity eshopu</a>
+</strong>                                                                                                
+}

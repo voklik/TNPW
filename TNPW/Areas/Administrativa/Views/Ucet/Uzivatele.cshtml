@@ -1,0 +1,298 @@
+﻿@using DataKnihovna.Model
+@model IList<Ucet>
+@{
+    ViewBag.Title = "Uzivatele";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+<h2>Uzivatele</h2>
+
+
+
+@using (Ajax.BeginForm("Search", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+{
+    <input type="text" class="form-control" placeholder="Vyhledat podle Loginu" id="searchBoxLogin" name="login" />
+    <input type="text" class="form-control" placeholder="Vyhledat podle Přezdivky" id="searchBoxJmeno" name="jmeno" />
+    <input type="text" class="form-control" placeholder="Vyhledat podle Přijmení" id="searchBoxPrijmeni" name="prijmeni" />
+    <input type="text" class="form-control" placeholder="Vyhledat podle Přezdivky" id="searchBoxPrezdivka" name="prezdivka" />
+
+    <input type="submit" value="Hledat" class="btn btn-default" />
+}
+@using (Html.BeginForm("Uzivatele", "Ucet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (@ViewBag.soucasna != null)
+    {
+        @Html.Hidden("_page", (string)@ViewBag.soucasna.ToString())
+    }
+
+    <label>Zobrazovat i neaktivní záznamy</label>
+    @Html.CheckBox("vse", "Zobrazovat i neaktivní záznamy")
+    <br />
+    <label> Počet položek na stránku</label>
+    @Html.DropDownList("_itemsOnPage",
+        new SelectList(
+            new List<Object>{
+             
+                new { value = 10 , text = "10 na stránku" },
+                new { value = 20 , text = "20 na stránku"},
+                new { value = 50 , text = "50 na stránku"  },
+                new { value = 100 , text = "100 na stránku"}
+            },
+            "value",
+            "text"
+            )
+        )
+    @Html.DropDownList("showRole",
+        new SelectList(
+            new List<Object>{
+                new { value = 1 , text = "Jen zákazníci"  },
+                new { value = 2 , text = "Jen pracovníci - bez adminů" },
+                new { value = 3 , text = "Jen admini"},
+                new { value = 4 , text = "Jen pracovníci a admini"},
+                new { value = 5 , text = "Všechny účty"}
+            },
+            "value",
+            "text"
+            )
+        )
+    <br />
+
+    <button type="submit" class="btn btn-primary">Refresh stránky</button>
+}
+<label> Celkem bylo nalezeno @ViewBag.celkem záznamů</label>
+@{
+    if (ViewBag.celkem != 0)
+    {
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Jmeno</th>
+                    <th>Přezdívka</th>
+                    <th>Login</th>
+                    <th>Aktivován</th>
+                @if (User.IsInRole("admin"))
+                {
+                    <th>možnosti</th>
+                }
+                    </tr >
+             
+                
+            </thead>
+            <tbody>
+                @foreach (Ucet ucet in Model)
+                {
+                    <tr bgcolor="@(@ucet.Aktivovano==false? "#854747" : "")">
+
+                        <td>
+                            <a href="@Url.Action("DetailUzivatele","Ucet", new {id=ucet.Id})">@ucet.Id</a>
+                        </td>
+                        <td>
+                            @ucet.Jmeno @ucet.Prijmeni
+                        </td>
+                        <td>
+                            @ucet.Prezdivka
+                        </td>
+                        <td>
+                            @ucet.Login
+                        </td>
+                        <td>
+                            @DataKnihovna.Utility.Utilita.formalizer(ucet.Aktivovano)
+                        </td>
+
+
+            @if (User.IsInRole("admin"))
+          { 
+
+                        <td>
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("EditHra", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Editovat hru</button>
+                                    </div>
+                                </div>
+                            }
+
+                            @* //aby nikdo nemohl to udělat přes url *@
+                            @using (Html.BeginForm("delete", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Smazat hru</button>
+                                    </div>
+                                </div>
+                            }
+                            
+                            @using (Ajax.BeginForm("aktivace", "Ucet", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                            {
+                                @Html.Hidden("_id", ucet.Id)
+                                if (ViewBag.vse != null)
+                                {
+                                                         
+                                    @Html.Hidden("vse", (string) @ViewBag.vse.ToString())
+                                }
+                                if(ViewBag.soucasna != null)
+
+                                {
+                                    @Html.Hidden("_soucasna", (string) @ViewBag.soucasna.ToString())
+                                }
+                                if(ViewBag.perPage != null)
+                                {
+                                          
+                                    @Html.Hidden("_itemsOnPage", (string) @ViewBag.perPage.ToString())
+                                }
+                                if(ViewBag.showRole != null)
+                                {
+
+                                    @Html.Hidden("showRole", (string)@ViewBag.showRole.ToString())
+                                }
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        @{
+                                            if (ucet.Aktivovano)
+                                            {
+                                                <button type="submit" class="btn btn-primary">Deaktivovat účet</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-primary">Aktivovat účet</button>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                        </td>
+
+                }
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    }
+}
+
+<div class="clearfix"></div>
+@if (ViewBag.pages != null)
+{
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.pages; i++)
+        {
+
+            <li class="@(ViewBag.soucasna == i? "active" : "")">
+                @Ajax.ActionLink(i.ToString(), "Uzivatele", new { _page = i, _vse = @ViewBag.vse, _itemsOnPage = ViewBag.perPage }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+
+            </li>
+
+        }
+    </ul>
+
+}
+
+
+<script type="text/javascript">
+    $(function() {
+        $("#searchBoxLogin").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("searchUcetbyLogin", "Ucet")',
+                    dataType: "json",
+                    data: {
+                        query: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+
+                });
+            },
+            minLength: 3,
+
+        });
+
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#searchBoxPrijmeni").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("searchUcetbyPrijmeni", "Ucet")',
+                    dataType: "json",
+                    data: {
+                        query: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+
+                });
+            },
+            minLength: 3,
+
+        });
+
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#searchBoxPrezdivka").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("searchUcetbyPrezdivka", "Ucet")',
+                    dataType: "json",
+                    data: {
+                        query: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+
+                });
+            },
+            minLength: 3,
+
+        });
+
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(function() {
+        $("#searchBoxJmeno").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("searchUcetbyJmeno", "Ucet")',
+                    dataType: "json",
+                    data: {
+                        query: request.term
+                    },
+                    success: function(data) {
+                        response(data);
+                    }
+
+                });
+            },
+            minLength: 3,
+
+        });
+
+
+    }); </script>

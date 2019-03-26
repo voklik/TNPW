@@ -1,0 +1,21 @@
+﻿
+@{
+  }
+
+
+<p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+@if(User.IsInRole("pracovnik") || User.IsInRole("admin"))
+{
+    <li class="nav-item">
+
+        <strong>
+            <a href="@Url.Action("Index","Home",new {area =""})">vstup do zákaznické sekce eshopu</a>
+        </strong>
+    </li>
+    <li class="nav-item">
+
+      
+            <a href="@Url.Action("Index","Test")">Testovací sekce</a>
+       
+    </li>
+}

@@ -25,5 +25,9 @@ namespace DataKnihovna.Model
             this.Id = id;
             this.Nazev = nazev;
         }
+        public virtual Boolean Aktivovano { get; set; }
+        public virtual int Pocet { get; set; }
     }
+
+  
 }

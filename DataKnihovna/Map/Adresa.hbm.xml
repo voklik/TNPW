@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="DataKnihovna" 
+                   namespace="DataKnihovna.Model">
+  
+  <class name="Adresa" table="Adresy"  lazy="false">
+    <id name="Id" column ="id">
+      <generator class="native" />
+    </id>
+    <property name="Aktivovano"  column="aktivovano" />
+
+    <property name="Mesto" column="mesto" />
+    <property name="Zeme" column="zeme" />
+    <property name="UliceCP"  column="uliceCP" />
+    <property name="PSC"  column="psc" />
+
+  </class>
+  
+</hibernate-mapping>

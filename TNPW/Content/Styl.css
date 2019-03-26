@@ -427,7 +427,11 @@ hr {
 .blockquote-footer {
     display: block;
     font-size: 80%;
-    color: #6c757d
+    color: #6c757d;
+           position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
     .blockquote-footer::before {
@@ -9720,7 +9724,33 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
         text-align: center !important
     }
 }
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+}
 
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
 @media (min-width:992px) {
     .text-lg-left {
         text-align: left !important
@@ -10001,5 +10031,14 @@ caret {
 }
 .collapse.show {
     visibility: visible;
+}
+hr {
+    color: #ccc;
+    background-color: #ccc;
+    height: 5px;
+}
+.maly {
+
+    height: 2px;
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
