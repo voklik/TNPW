@@ -243,7 +243,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
-                return View("novaPM",model);
+                return View("novaPlatba",model);
 
             }
            
@@ -260,7 +260,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
-                return View("novaDM", model);
+                return View("novaDoprava", model);
 
             }
 
@@ -280,7 +280,7 @@ namespace TNPW.Areas.Administrativa.Controllers
                 ViewBag.platby = new PlatetbniMoznostDao().getAktiv(false);
                 ViewBag.dopravy = new DopravaMoznostDao().getAktiv(false);
 
-                return View("novaKM", model);
+                return View("novaKombinace", model);
 
             }
 

@@ -40,7 +40,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
-                return View("NovyVydavatel", platforma);
+                return View("NovaPlatforma", platforma);
             }
         }
 

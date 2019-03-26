@@ -441,9 +441,9 @@ namespace TNPW.Areas.Administrativa.Controllers
             gameDao.Delete(hra);
             return RedirectToAction("Hra");
         }
-        [HttpPost]
       
 
+        
         public ActionResult deleteObrazek(int hra, int ido)
         {
             ObrazekDao obrazekDao=new ObrazekDao();
@@ -455,7 +455,12 @@ namespace TNPW.Areas.Administrativa.Controllers
 
             }
             obrazekDao.Delete(smazat);
-            return RedirectToAction("DetailHry", new{id=hra});
+            DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
+            DataKnihovna.Model.Hra hra1 = hryDao.GetById(hra);
+          
+            IList<Obrazek> obrazky = obrazekDao.GetByGame(hra);
+            ViewBag.obrazky = obrazky;
+            return PartialView("DetailHryAjax",hra1);
         }
 
     }

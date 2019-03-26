@@ -12,10 +12,7 @@ namespace TNPW.Controllers
     public class UcetController : Controller
     {
         // GET: Ucet
-        public ActionResult Index()
-        {
-            return View();
-        }
+   
         public ActionResult Registrace()
         {
             String originalPassword = "Michal";

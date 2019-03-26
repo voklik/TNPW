@@ -11,21 +11,7 @@
     Double usetreni = Model.Cena - aktCena;
 }
 
-<h2>Detail Hry</h2>
-Objednávací kód: @DataKnihovna.Utility.Utilita.formalizer(Model.Id) <br />
-Název: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
-Platforma: @DataKnihovna.Utility.Utilita.formalizer(Model.Platforma.Nazev)<br />
-Cena (bez slevy): @DataKnihovna.Utility.Utilita.formalizer(Model.Cena)<br />
-Aktuální sleva: @DataKnihovna.Utility.Utilita.formalizer(Model.Sleva)<br />
-
-<strong>Aktuální cena bez DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCena()) </strong><br />
-<strong>Aktuální cena s DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCenasDPH()) </strong><br />
-Ušetříte: @DataKnihovna.Utility.Utilita.formalizer(Model.usetreni())<br />
-Popis: @Html.Raw(@DataKnihovna.Utility.Utilita.formalizer(Model.Popis))<br />
-Vydavatel: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydavatel.Nazev)<br />
-Skladem: @DataKnihovna.Utility.Utilita.formalizer(Model.Skladem)<br />
-Datum vydání: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydano);<br />
-DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
+<h2>Detail Hry @Model.Nazev</h2>
 @if (!string.IsNullOrEmpty(Model.Ikona))
 {
     <label>Náhledový obrázek</label><br>
@@ -34,31 +20,62 @@ DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
 
     </div>
 }
-<a href="@Url.Action("pridatObrazek", "Hra",new{id_hry=Model.Id})" class="btn btn-primary">
-    Přidat nový obrázek do galerie
-</a>
 @if (string.IsNullOrEmpty(Model.Ikona))
 {
     @Html.Label("Hra nemá nastavenou ikonu")
 }
-<br><br><hr>
+Objednávací kód: @DataKnihovna.Utility.Utilita.formalizer(Model.Id) <br />
+Název: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
+Aktuální sleva: @DataKnihovna.Utility.Utilita.formalizer(Model.Sleva * 100)%<br />
+<strong>Aktuální cena bez DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCena()) </strong><br />
+<strong>Aktuální cena s DPH: @DataKnihovna.Utility.Utilita.formalizer(Model.aktualniCenasDPH()) </strong><br />
+Platforma: @DataKnihovna.Utility.Utilita.formalizer(Model.Platforma.Nazev)<br />
+Vydavatel: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydavatel.Nazev)<br />
+
+<hr class="">
+Cena (bez slevy): @DataKnihovna.Utility.Utilita.formalizer(Model.Cena)<br />
+
+
+Ušetříte: @DataKnihovna.Utility.Utilita.formalizer(Model.usetreni())<br />
+
+
+Skladem: @DataKnihovna.Utility.Utilita.formalizer(Model.Skladem)<br />
+Datum vydání: @DataKnihovna.Utility.Utilita.formalizer(Model.Vydano);<br />
+DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
+
+<br /><hr class="">
+<H3>Popis hry</H3>
+@Html.Raw(@DataKnihovna.Utility.Utilita.formalizer(Model.Popis))<br />
+
+<hr class="">
+<br />
+<H3>Galerie obrázků</H3>
+
+<a href="@Url.Action("pridatObrazek", "Hra",new{id_hry=Model.Id})" class="btn btn-primary">
+    Přidat nový obrázek do galerie
+</a>
+
+<br><br>
 @if (ViewBag.obrazky != null)
 {
 
-    <div class="html-code grid-of-images">
-        <div class="popup-gallery">
-            @if (ViewBag.obrazky != null)
+
+<div class="html-code grid-of-images">
+    <div class="popup-gallery">
+        @if (ViewBag.obrazky != null)
+        {
+            foreach (Obrazek obrazek in ViewBag.obrazky)
             {
-                foreach (Obrazek obrazek in ViewBag.obrazky)
-                {
-
-                    <a href="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" title=' <a href="@Url.Action("deleteObrazek", "Hra", new {hra=Model.Id,ido = obrazek.Id})">smazat obrázek</a>'><img src="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" width="75" height="75"></a>
-                }
-
+                @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek","Hra", new {hra=Model.Id,ido = obrazek.Id},new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+                <a href="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" title='      @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek","Hra", new {hra=Model.Id,ido = obrazek.Id},new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })<br/>
+'><img src="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" width="75" height="75"></a>
             }
-        </div>
+
+        }
     </div>
-    <!-- #endregion Jssor Slider End -->
+</div>
+    
+<!-- #endregion Jssor Slider End -->
 }
 
 
@@ -83,7 +100,7 @@ DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
             image: {
                 tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
                 titleSrc: function (item) {
-                    return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
+                    return item.el.attr('title');
                 }
             }
         });

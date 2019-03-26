@@ -124,7 +124,7 @@ namespace TNPW.Controllers
                     }
                 }
 
-                return View("Hra",hra);
+                return View("DetailHry",hra);
                
         }
             else

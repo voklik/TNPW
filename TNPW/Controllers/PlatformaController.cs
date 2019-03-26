@@ -38,7 +38,7 @@ namespace TNPW.Controllers
             }
             else
             {
-                return View("NovyVydavatel", platforma);
+                return View("NovaPlatforma", platforma);
             }
         }
 
