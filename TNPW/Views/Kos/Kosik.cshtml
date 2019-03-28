@@ -1,0 +1,205 @@
+﻿@using DataKnihovna.Model
+@model Kosik
+@{
+    ViewBag.Title = "Košík";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Kosik</h2>
+
+<label>Cena celkem s DPH: @Model.Celkem </label>
+
+<br />
+<br />
+@using (Html.BeginForm("vyprazdnit", "Kos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Vysypat koš</button>
+        </div>
+    </div>
+}
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>nahled</th>
+            <th>ID</th>
+            <th>Název</th>
+
+            <th>Aktuální cena</th>
+
+            <th>Vydavatel</th>
+            <th>možnosti</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PolozkaKosik polozka in Model.Polozky)
+        {
+            <tr bgcolor="@(polozka.Hra.Aktivovano==false? "#854747" : "")">
+                <td>
+                    @if (!string.IsNullOrEmpty(polozka.Hra.Ikona))
+                    {
+
+                        <a href="@Url.Action("DetailHry", "Hra", new {id = polozka.Hra.Id})">
+                            <img src="@Url.Content("~/uploads/hry/" + polozka.Hra.Ikona)" />
+                        </a>
+                    }
+
+                    @if (string.IsNullOrEmpty(polozka.Hra.Ikona))
+                    {
+                        @Html.Label("Hra nemá nastavenou ikonu")
+                    }
+
+
+
+                </td>
+                <td>
+                    <a href="@Url.Action("DetailHry", "Hra", new {id = polozka.Hra.Id})">@polozka.Hra.Nazev (@polozka.Hra.Platforma.Nazev)</a>
+                </td>
+                <td>
+                    @polozka.Hra.Nazev
+                </td>
+
+                <td>
+                    @{
+                        double aktCena = 1.0 - polozka.Hra.Sleva;
+                        aktCena = aktCena * polozka.Hra.Cena;
+                    }
+                    @aktCena
+                </td>
+
+                <td>
+
+
+
+                    @* //aby nikdo nemohl to udělat přes url *@
+                    @using (Html.BeginForm("editovat", "Kos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Hidden("id", polozka.Hra.Id)
+                        @Html.Hidden("mnozstvi", polozka.Mnozstvi)
+                        <label>Množství - aktuálně je @polozka.Mnozstvi</label>
+                        @Html.TextBox("Xmnozstvi", "1", new { htmlAttributes = new { @type = "number", @min = "1", @step = "1" } })
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Změnit množství</button>
+                            </div>
+                        </div>
+                    }
+                    @using (Html.BeginForm("smazat", "Kos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.Hidden("id", polozka.Id)
+                        @Html.Hidden("mnozstvi", polozka.Mnozstvi)
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">Odstranit</button>
+                            </div>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+
+
+
+
+@using (Html.BeginForm("vytvoritObjednavku", "Kos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("uzivatel", (string)ViewBag.uzivatel.ToString())
+    <label>Výběr způsobu platby </label>
+    @Html.DropDownList("platba", new SelectList(@ViewBag.platby, "Id", "Nazev", "id"))
+    <br />
+    <label>Výběr způsobu Dopravy </label>
+    @Html.DropDownList("doprava", new SelectList(@ViewBag.doprava, "Id", "Nazev", "id"))
+    <br />
+
+    <H3>Bonusy pro určité kombinace plateb a dopravy</H3>
+
+
+    {
+        Html.RenderAction("KombinaceMoznosti", "Kos");
+    }
+    <br />
+    <br>
+    <H3>Adresa</H3>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Jmeno</label>
+        <div class="col-sm-10">
+        
+            @Html.TextBox("jmeno",(string) @ViewBag.Jmeno, new { @class = "form-control", required = "required" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Přijmeni</label>
+        <div class="col-sm-10">
+
+            @Html.TextBox("prijmeni", (string)@ViewBag.Prijmeni, new { @class = "form-control", required = "required" })
+         
+        </div>
+    </div>
+
+ 
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+
+            @Html.TextBox("email", (string)@ViewBag.Email, new { @class = "form-control", type = "email", required = "required" })
+          
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Telefon</label>
+        <div class="col-sm-10">
+
+            @Html.TextBox("telefon", (string)@ViewBag.Telefon, new { @class = "form-control", required = "required" })
+         
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Město</label>
+        <div class="col-sm-10">
+            @Html.TextBox("mesto", (string)@ViewBag.Mesto, new { @class = "form-control", required = "required" })
+     
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Ulice číslem popisné</label>
+        <div class="col-sm-10">
+            @Html.TextBox("ulice", (string)@ViewBag.UliceCp, new { @class = "form-control", required = "required" })
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">PSČ</label>
+        <div class="col-sm-10">
+            @Html.TextBox("psc", (string)@ViewBag.PSC, new { @class = "form-control", required = "required" })
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Země</label>
+        <div>    @Html.TextBox("zeme", (string)@ViewBag.Zeme, new { @class = "form-control", required = "required" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Přehled objednávky</button>
+        </div>
+    </div>
+}

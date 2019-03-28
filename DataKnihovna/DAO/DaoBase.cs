@@ -51,6 +51,11 @@ namespace DataKnihovna.DAO
           
             return session.QueryOver<T>().List<T>();
         }
+        public IList<T> GetlAllAktiv()
+        {
+
+            return session.CreateCriteria<T>().Add(Restrictions.Eq("Aktivovano", true)).List<T>();
+        }
 
         public void Update(T entity)
         {

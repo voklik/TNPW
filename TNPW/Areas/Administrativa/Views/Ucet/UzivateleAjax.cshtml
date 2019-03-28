@@ -9,7 +9,7 @@
 
 
 
-@using (Ajax.BeginForm("Search", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+@using (Ajax.BeginForm("Search", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
 {
     <input type="text" class="form-control" placeholder="Vyhledat podle Loginu" id="searchBoxLogin" name="login" />
     <input type="text" class="form-control" placeholder="Vyhledat podle Přezdivky" id="searchBoxJmeno" name="jmeno" />
@@ -85,9 +85,11 @@
 
                         <td>
                             <a href="@Url.Action("DetailUzivatele","Ucet", new {id=ucet.Id})">@ucet.Id</a>
+                               @ucet.RoleUzivatele.Identifikator
                         </td>
                         <td>
-                            @ucet.Jmeno @ucet.Prijmeni
+                            <a href="@Url.Action("DetailUzivatele","Ucet", new {id=ucet.Id})">     @ucet.Jmeno @ucet.Prijmeni</a>
+                       
                         </td>
                         <td>
                             @ucet.Prezdivka
@@ -104,25 +106,11 @@
                         {
 
                             <td>
-                                @* //aby nikdo nemohl to udělat přes url *@
-                                @using (Html.BeginForm("EditHra", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-
+                                @using (Html.BeginForm("nastaveniUctu", "Ucet", FormMethod.Post))
+                                {@Html.Hidden("id", ucet.Id)
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-primary">Editovat hru</button>
-                                        </div>
-                                    </div>
-                                }
-
-                                @* //aby nikdo nemohl to udělat přes url *@
-                                @using (Html.BeginForm("delete", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-
-
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-primary">Smazat hru</button>
+                                            <button type="submit" class="btn btn-primary">Editovat účet</button>
                                         </div>
                                     </div>
                                 }

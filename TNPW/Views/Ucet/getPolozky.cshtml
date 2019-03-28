@@ -1,0 +1,57 @@
+﻿@using DataKnihovna.Model
+@model IList<DataKnihovna.Model.PolozkaObjednavka>
+@{
+
+}
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Hra</th>
+            <th>Cena za ks</th>
+            <th>Množství</th>
+            <th>Stav</th>
+            @if (ViewBag.stav == 1)
+            {
+                <th>Možnost
+
+                </th>}
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (PolozkaObjednavka polozka in Model)
+        {
+            <tr bgcolor="@(polozka.Stav !=null? (polozka.Stav.Id>=9 &&polozka.Stav.Id<=12? "#854747":"") : "")">
+                <td>
+                    <a href="@Url.Action("DetailHry", "Hra", new {id = polozka.Hra.Id})">@polozka.Hra.Nazev</a>
+
+                </td>
+                <td>
+                    @polozka.TehdejsiCena Kč
+                </td>
+                <td>
+                    @polozka.Mnozstvi ks
+
+                </td>
+                <td>
+                    @if (polozka.Stav != null)
+                    {<label>@polozka.Stav.Nazev</label>}
+
+
+                </td>
+                @if (ViewBag.stav == 1 )
+                {
+                    <td>
+                      
+                         @Ajax.ActionLink("Požádat o storno","deletePolozku",new{ id = polozka.Id}, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId ="Obsah"}, new { enctype = "multipart/form-data" })
+
+                    </td>}
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+

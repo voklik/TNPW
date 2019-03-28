@@ -44,7 +44,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View(doprava);
         }
 
-       
+        [HttpPost]
         public ActionResult smazatKM(String _id)
         {
 
@@ -56,6 +56,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return RedirectToAction("KombinaceMoznosti");
 
         }
+        [HttpPost]
         public ActionResult editPM(String _id)
         {
 
@@ -74,6 +75,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View(model);
 
         }
+        [HttpPost]
         public ActionResult editKM(String _id)
         {
          
@@ -85,6 +87,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View(model);
 
         }
+        [HttpPost]
         public ActionResult editatPM(PlatetbniMoznost model)
         {
             if (ModelState.IsValidField("Cena") && ModelState.IsValidField("Popis") && ModelState.IsValidField("Nazev"))
@@ -99,9 +102,10 @@ namespace TNPW.Areas.Administrativa.Controllers
                 return View("editPM",model);
             }
 
-          
+
 
         }
+        [HttpPost]
         public ActionResult editatDM(DopravaMoznost model)
         {
 
@@ -115,15 +119,24 @@ namespace TNPW.Areas.Administrativa.Controllers
             {
                 return View("editDM", model);
             }
-       
+
 
         }
+        [HttpPost]
         public ActionResult editatKM(KombinaceMoznosti model)
         {
             if (ModelState.IsValidField("CenaDoprava") && ModelState.IsValidField("CenaPlatebni") && ModelState.IsValidField("CenaObjednavky"))
             {
 
                 KombinaceMoznostiDao dao = new KombinaceMoznostiDao();
+                if (dao.IsKombinaceQuery(model.DopravaMoznost.Id, model.PlatbaMoznost.Id, false))
+                {
+                    ViewBag.platby = new PlatetbniMoznostDao().getAktiv(false);
+                    ViewBag.dopravy = new DopravaMoznostDao().getAktiv(false);
+                    TempData["error"] = "Takováto kombinace už existuje !!!! Nemohou být dvě";
+                    return View("editKM", model);
+
+                }
                 dao.Update(model);
                 return RedirectToAction("KombinaceMoznosti");
             }
@@ -136,7 +149,7 @@ namespace TNPW.Areas.Administrativa.Controllers
 
 
         }
-
+        [HttpPost]
         public ActionResult aktivaceKM(String _id)
         {
 
@@ -152,8 +165,9 @@ namespace TNPW.Areas.Administrativa.Controllers
 
             dao.Update(model);
             return RedirectToAction("KombinaceMoznosti");
-        
+
         }
+        [HttpPost]
         public ActionResult aktivacePM(String _id)
         {
 
@@ -171,6 +185,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return RedirectToAction("PlatebMoznosti");
 
         }
+        [HttpPost]
         public ActionResult aktivaceDM(String _id)
         {
 
@@ -218,6 +233,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View();
 
         }
+        [HttpPost]
         public ActionResult addPM(PlatetbniMoznost model)
         {
 
@@ -229,12 +245,13 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
-                return View("novaPlatba",model);
+                return View("novaPM",model);
 
             }
-           
+
 
         }
+        [HttpPost]
         public ActionResult addDM(DopravaMoznost model)
         {
             if (ModelState.IsValidField("Cena") && ModelState.IsValidField("Popis") && ModelState.IsValidField("Nazev") )
@@ -246,18 +263,28 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
-                return View("novaDoprava", model);
+                return View("novaDM", model);
 
             }
 
 
 
         }
+        [HttpPost]
         public ActionResult addKM(KombinaceMoznosti model)
         {
             if (ModelState.IsValidField("CenaDoprava") && ModelState.IsValidField("CenaPlatebni") && ModelState.IsValidField("CenaObjednavky"))
             {
+              
                 KombinaceMoznostiDao dao = new KombinaceMoznostiDao();
+                if (dao.IsKombinaceQuery(model.DopravaMoznost.Id,model.PlatbaMoznost.Id,false))
+                {
+                    ViewBag.platby = new PlatetbniMoznostDao().getAktiv(false);
+                    ViewBag.dopravy = new DopravaMoznostDao().getAktiv(false);
+                    TempData["error"] = "Takováto kombinace už existuje !!!! Nemohou být dvě";
+                    return View("novaKM", model);
+
+                }
                 dao.Create(model);
                 return RedirectToAction("KombinaceMoznosti");
             }
@@ -265,8 +292,8 @@ namespace TNPW.Areas.Administrativa.Controllers
             {
                 ViewBag.platby = new PlatetbniMoznostDao().getAktiv(false);
                 ViewBag.dopravy = new DopravaMoznostDao().getAktiv(false);
-
-                return View("novaKombinace", model);
+              
+                return View("novaKM", model);
 
             }
 

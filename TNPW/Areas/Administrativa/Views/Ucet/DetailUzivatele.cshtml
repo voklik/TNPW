@@ -11,6 +11,8 @@
 Jmeno : @Model.Jmeno  @Model.Prijmeni <br />
 Přezdívka : @Model.Prezdivka <br />
 
+Telefon : @Model.Telefon <br />
+Email : @Model.Email <br />
 @{
     if (Model.Aktivovano)
     {
@@ -21,7 +23,15 @@ Přezdívka : @Model.Prezdivka <br />
         <label>  Účet není aktivován <br /></label>
     }
 }
-@using (Html.BeginForm("aktivace2", "Ucet", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+@using (Html.BeginForm("nastaveniUctu", "Ucet", FormMethod.Post))
+{@Html.Hidden("id", Model.Id)
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Editovat účet</button>
+    </div>
+</div>
+}
+@using (Ajax.BeginForm("aktivace2", "Ucet", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
 {
     @Html.Hidden("_id", Model.Id)
     if (Model.Aktivovano)
@@ -32,16 +42,23 @@ Přezdívka : @Model.Prezdivka <br />
     {
         <button type="submit" class="btn btn-primary">Aktivovat účet</button>
     }
-    }
+}
 <hr>
+
 
 <H1> Adresa </H1>
 @if (@Model.Adresa != null)
 {
-    @Model.Adresa.Mesto
-    @Model.Adresa.PSC
-    @Model.Adresa.UliceCP
-    @Model.Adresa.Zeme}
+    <label> Mesto: @Model.Adresa.Mesto</label>
+    <br/>
+    <label> PSC: @Model.Adresa.PSC</label>
+    <br/>
+    <label> Ulice číslem popisné: @Model.Adresa.UliceCP</label>
+    <br/>
+    <label> Země: @Model.Adresa.Zeme</label>
+    <br/>
+
+}
 else
 {
 <label>Adresa není nastavena</label>
@@ -52,8 +69,8 @@ else
 @foreach (Objednavka objekt in Model.Objednavky)
 {
 
-                     <a href="@Url.Action("DetailObjednavky", "Objednavka", new {id = objekt.Id})">  <H4>Objednávka č. @objekt.Cislo  </H4></a>
-      
+    <a href="@Url.Action("DetailObjednavky", "Objednavka", new {id = objekt.Id})">  <H4>Objednávka č. @objekt.Cislo  </H4></a>
+
     <label style="@(@objekt.Stav.Id<=3 ||@objekt.Stav.Id>3? "" : "color:red")">   Stav: @objekt.Stav.Nazev</label><br />
 
 
@@ -69,10 +86,7 @@ else
                 <th>Cena za ks</th>
                 <th>Množství</th>
                 <th>Stav</th>
-                @if (objekt.Stav.Id == 1)
-                {
-                    <th>Možnost</th>
-                }
+
             </tr>
         </thead>
         <tbody>
@@ -93,16 +107,16 @@ else
                     <td>
                         @if (polozka.Stav != null)
                         {<label>@polozka.Stav.Nazev</label>}
-                     
+
 
                     </td>
                     @*@if (objekt.Stav.Id == 1 && polozka.Stav==null)
-                    {
-                    <td>
-                      
-                         @Ajax.ActionLink("Požádat o storno","deletePolozku","Objednavka",new{ id = polozka.Id}, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" ,HttpMethod = "POST" }, new { enctype = "multipart/form-data" })
-                     
-                    </td>}*@
+                        {
+                        <td>
+
+                             @Ajax.ActionLink("Požádat o storno","deletePolozku","Objednavka",new{ id = polozka.Id}, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" ,HttpMethod = "POST" }, new { enctype = "multipart/form-data" })
+
+                        </td>}*@
                 </tr>
             }
 
@@ -115,4 +129,4 @@ else
     <hr class="maly">
 
 }
-        
+

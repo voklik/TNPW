@@ -1,8 +1,131 @@
-﻿
+﻿@model DataKnihovna.Model.Ucet
 @{
     ViewBag.Title = "Registrace";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Registrace</h2>
-@ViewBag.heslo
+
+@if (TempData["zprava"] != null)
+{<br />
+    <H2>
+        @TempData["zprava"]
+
+    </H2>
+}
+@using (Html.BeginForm("registrovat", "Ucet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{@Html.HiddenFor(x => x.Id)
+@Html.HiddenFor(x => x.Heslo)
+@Html.HiddenFor(x => x.Login)
+
+@Html.HiddenFor(x => x.RoleUzivatele.Id)
+
+@Html.HiddenFor(x => x.Aktivovano)
+@Html.HiddenFor(x => x.Adresa.Id)
+@Html.HiddenFor(x => x.Adresa.Aktivovano)
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Jmeno</label>
+    <div class="col-sm-10">
+
+        @Html.TextBoxFor(x => x.Jmeno, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Jmeno)
+
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Přijmeni</label>
+    <div class="col-sm-10">
+
+        @Html.TextBoxFor(x => x.Prijmeni, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Prijmeni)
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Přijmeni</label>
+    <div class="col-sm-10">
+        <label>login </label>
+        @*@Html.TextBox("login", "", new { @class = "form-control", required = "required" })<br />
+        @Html.Password("password", "", new { @class = "form-control", required = "required" })<br /><br />*@
+        <input type="text" id="log" name="log"  class = "form-control", required = "required" />
+        <label>Heslo </label>
+     
+        <input type="password" id="password" name="password"class = "form-control", required = "required"/>
+
+    
+        </div>
+</div>
+
+
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">Přezdivka</label>
+    <div class="col-sm-10">
+
+        @Html.TextBoxFor(x => x.Prezdivka, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Prezdivka)
+    </div>
+</div>
+
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", type = "email", required = "required" })
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Telefon</label>
+        <div class="col-sm-10">
+
+            @Html.TextBoxFor(x => x.Telefon, new { @class = "form-control", required = "required" })
+            @Html.ValidationMessageFor(x => x.Telefon)
+        </div>
+    </div>
+
+<H3>Adresa</H3>
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Město</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(x => x.Adresa.Mesto, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Adresa.Mesto)
+    </div>
+
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Ulice číslem popisné</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(x => x.Adresa.UliceCP, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Adresa.UliceCP)
+    </div>
+
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">PSČ</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(x => x.Adresa.PSC, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Adresa.PSC)
+    </div>
+
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">Země</label>
+    <div class="col-sm-10">
+        @Html.TextBoxFor(x => x.Adresa.Zeme, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(x => x.Adresa.Zeme)
+    </div>
+
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Provést editaci</button>
+    </div>
+</div>
+
+
+
+}

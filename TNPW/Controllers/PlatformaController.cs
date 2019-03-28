@@ -14,31 +14,9 @@ namespace TNPW.Controllers
         {
             {
                 DataKnihovna.DAO.PlatformaDao platformaDao = new DataKnihovna.DAO.PlatformaDao();
-                IList<DataKnihovna.Model.Platforma> hry = platformaDao.GetlAll();
+                IList<DataKnihovna.Model.Platforma> hry = platformaDao.GetlAllAktiv();
 
                 return View(hry);
-            }
-        }
-        public ActionResult NovaPlatforma()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        public ActionResult Add(Platforma platforma)
-        {
-            DataKnihovna.DAO.PlatformaDao platformaDao = new DataKnihovna.DAO.PlatformaDao();
-
-            if (ModelState.IsValid)
-            {
-
-                platformaDao.Create(platforma);
-                return RedirectToAction("Platforma");
-            }
-            else
-            {
-                return View("NovaPlatforma", platforma);
             }
         }
 

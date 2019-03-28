@@ -38,7 +38,7 @@
                 </td>
                 <td>
 
-                    @using (Ajax.BeginForm("aktivaceDM", "KombinaceMoznosti", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                    @using (Ajax.BeginForm("aktivaceDM", "KombinaceMoznosti", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
                     {
                         @Html.Hidden("_id", predmet.Id)
                         if (ViewBag.vse != null)
@@ -84,7 +84,7 @@
 
 
 <form>
-    <a href="@Url.Action("NovaDoprava", "KombinaceMoznosti")" class="btn btn-primary">
+    <a href="@Url.Action("novaDM", "KombinaceMoznosti")" class="btn btn-primary">
         Vytvořit novou možnost
     </a>
 </form>

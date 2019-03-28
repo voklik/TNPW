@@ -12,15 +12,16 @@
 
 <h2>Editece Objednavky @Model.Cislo </h2>
 
-@using (Html.BeginForm("edit", "Objednavka", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("edit", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "editor" }))
 {
-    @Html.HiddenFor(x => x.Id)
-    @Html.HiddenFor(x => x.Cislo)
-    @Html.HiddenFor(x => x.DatumObjednavky)
-    @Html.HiddenFor(x => x.IdUser)
-    @Html.HiddenFor(x => x.Aktivovano)
-    @Html.HiddenFor(x => x.Adresa.Id)
-    <div class="form-group">
+                @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.Cislo)
+                            @Html.HiddenFor(x => x.DatumObjednavky)
+                            @Html.HiddenFor(x => x.IdUser)
+                            @Html.HiddenFor(x => x.Aktivovano)
+                            @Html.HiddenFor(x => x.Adresa.Id)
+              
+     <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">Stav</label>
         <div class="col-sm-10">
             @Html.DropDownListFor(x => x.Stav.Id, new SelectList(@ViewBag.stavy, "Id", "Nazev", "id"))

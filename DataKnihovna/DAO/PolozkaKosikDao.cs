@@ -14,6 +14,8 @@ namespace DataKnihovna.DAO
         {
 
         }
+        
+
         public IList<PolozkaKosik> GetByUzivatel(int id)
         {
 
@@ -26,5 +28,21 @@ namespace DataKnihovna.DAO
                 .List<PolozkaKosik>();
         }
 
+        public void vyprazdnit(int id)
+        {
+
+
+            var customer = GetByUzivatel(id);
+            foreach (PolozkaKosik cus in customer)
+            {
+                Delete(cus);
+
+            }
+           
+
+          
+
+             return;
+        }
     }
 }

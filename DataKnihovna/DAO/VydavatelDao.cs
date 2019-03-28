@@ -22,6 +22,7 @@ namespace DataKnihovna.DAO
                 .List<Vydavatel>();
 
         }
+     
 
         public Vydavatel GetByGame(int id)
         {

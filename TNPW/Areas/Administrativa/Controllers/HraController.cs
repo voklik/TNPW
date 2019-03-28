@@ -135,6 +135,23 @@ namespace TNPW.Areas.Administrativa.Controllers
             return RedirectToAction("Hra", new { _page = _page, vse = vse, _itemsOnPage = _itemsOnPage });
             // return RedirectToAction("DetailHry",hra.Id);
         }
+        public ActionResult aktivace2(String _id)
+        {
+
+            int id = int.Parse(_id);
+            GameDao gameDao = new GameDao();
+            Hra hra = gameDao.GetById(id);
+
+            if (hra.Aktivovano)
+                hra.Aktivovano = false;
+            else
+                hra.Aktivovano = true;
+
+
+            gameDao.Update(hra);
+           // return RedirectToAction("Hra", new { _page = _page, vse = vse, _itemsOnPage = _itemsOnPage });
+            return RedirectToAction("DetailHry",new {id=hra.Id});
+        }
         public ActionResult Search(string nazev)
         {
             int celkem;

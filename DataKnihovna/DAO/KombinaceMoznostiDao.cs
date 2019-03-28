@@ -15,24 +15,24 @@ namespace DataKnihovna.DAO
 
         }
 
-        public IList<Stav> getALLAktiv(Boolean vse)
+        public IList<KombinaceMoznosti> getALLAktiv(Boolean vse)
         {
 
             if (vse)
-                return session.CreateCriteria<Stav>()
+                return session.CreateCriteria<KombinaceMoznosti>()
 
                     .AddOrder(Order.Asc("id"))
-                    .List<Stav>();
+                    .List<KombinaceMoznosti>();
 
             else
             {
 
 
-                return session.CreateCriteria<Stav>()
+                return session.CreateCriteria<KombinaceMoznosti>()
 
                     .Add((Restrictions.Eq("Aktivovano", true)))
                     .AddOrder(Order.Asc("id"))
-                    .List<Stav>();
+                    .List<KombinaceMoznosti>();
             }
         }
         public KombinaceMoznosti IsKombinace(int dopravaID, int platbaID,Boolean vse)
@@ -53,6 +53,47 @@ namespace DataKnihovna.DAO
                     .Add((Restrictions.Eq("DopravaMoznost.Id", dopravaID)))
                     .Add((Restrictions.Eq("Aktivovano", true)))
                     .UniqueResult<KombinaceMoznosti>();
+            }
+        }
+        public Boolean IsKombinaceQuery(int dopravaID, int platbaID, Boolean vse)
+        {
+
+            if (vse)
+            {
+               int totalItems = session.CreateCriteria<KombinaceMoznosti>()
+                    .Add((Restrictions.Eq("PlatbaMoznost.Id", platbaID)))
+                    .Add((Restrictions.Eq("DopravaMoznost.Id", dopravaID)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+               if (totalItems==1)
+               {
+                   return true;
+
+               }
+               else
+               {
+                   return false;
+                }
+            }
+            else
+            {
+
+
+               
+                int totalItems = session.CreateCriteria<KombinaceMoznosti>()
+                    .Add((Restrictions.Eq("PlatbaMoznost.Id", platbaID)))
+                    .Add((Restrictions.Eq("Aktivovano", true)))
+                    .Add((Restrictions.Eq("DopravaMoznost.Id", dopravaID)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+                if (totalItems == 1)
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
     }

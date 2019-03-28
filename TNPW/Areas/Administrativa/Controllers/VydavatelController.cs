@@ -80,7 +80,7 @@ namespace TNPW.Areas.Administrativa.Controllers
                 return View("Vydavatel");
             
         }
-
+        [HttpPost]
         public ActionResult aktivace(String _id)
         {
 

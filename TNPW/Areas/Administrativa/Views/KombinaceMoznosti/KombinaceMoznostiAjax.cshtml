@@ -48,7 +48,7 @@
                 </td>
                 <td>
 
-                    @using (Ajax.BeginForm("aktivaceKM", "KombinaceMoznosti", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                    @using (Ajax.BeginForm("aktivaceKM", "KombinaceMoznosti", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
                     {
                         @Html.Hidden("_id", predmet.Id)
                         if (ViewBag.vse != null)
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     }
-                    @using (Ajax.BeginForm("smazatKM", "KombinaceMoznosti", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
+                    @using (Ajax.BeginForm("smazatKM", "KombinaceMoznosti", new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" }))
                     {
                         @Html.Hidden("_id", predmet.Id)
 

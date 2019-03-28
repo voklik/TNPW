@@ -9,7 +9,7 @@
 <h2>Hry</h2>
 
 
-@using (Ajax.BeginForm("Search", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+@using (Ajax.BeginForm("Search", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
 {
     <input type="text" autocomplete="off" class="form-control" placeholder="Vyhledat podle názvu hry" id="searchBoxNazev" name="nazev" />
 

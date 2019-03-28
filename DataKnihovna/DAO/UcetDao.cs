@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using DataKnihovna.Model;
@@ -35,6 +36,15 @@ namespace DataKnihovna.DAO
             return session.CreateCriteria<Ucet>()
                 .Add((Restrictions.Eq("Login", login)))
                 .UniqueResult<Ucet>();
+
+        }
+        public bool IsThereLogin(string login)
+        {
+            if (session.CreateCriteria<Ucet>()
+                    .Add((Restrictions.Eq("Login", login))).List<Ucet>().Count == 1)
+                return true;
+         else
+                return false;
 
         }
         public IList<Ucet> GetByRole(int idRole)

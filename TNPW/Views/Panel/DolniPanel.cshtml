@@ -5,5 +5,7 @@
 @if (User.IsInRole("pracovnik") || User.IsInRole("admin"))
 {
 <strong>   <a href="@Url.Action("Index", "Home", new {area = "Administrativa"})">vstup do administravity eshopu</a>
-</strong>                                                                                                
+
+</strong>     <br/>
+              <br/>
 }

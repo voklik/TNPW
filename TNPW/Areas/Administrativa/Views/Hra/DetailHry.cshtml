@@ -1,14 +1,16 @@
 ﻿@using DataKnihovna.Model
 @model Hra
 @{
-    ViewBag.Title = "DetailHry";
-    Layout = "../Shared/_Layout.cshtml";
+                /**/
 
-    double aktCena = (1.0 - Model.Sleva);
-    aktCena = aktCena * Model.Cena;
-    double slev = Model.Sleva * 100;
-    String slevicka = String.Concat(slev.ToString(), "%");
-    Double usetreni = Model.Cena - aktCena;
+                ViewBag.Title = "Detail Hry" + Model.Nazev;
+                Layout = "../Shared/_Layout.cshtml";
+
+                double aktCena = (1.0 - Model.Sleva);
+                aktCena = aktCena * Model.Cena;
+                double slev = Model.Sleva * 100;
+                String slevicka = String.Concat(slev.ToString(), "%");
+                Double usetreni = Model.Cena - aktCena;
 }
 
 <h2>Detail Hry @Model.Nazev</h2>
@@ -23,6 +25,25 @@
 @if (string.IsNullOrEmpty(Model.Ikona))
 {
     @Html.Label("Hra nemá nastavenou ikonu")
+} @using (Html.BeginForm("aktivace2", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("_id", Model.Id)
+   
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @{
+                if (Model.Aktivovano)
+                {
+                    <button type="submit" class="btn btn-primary">Deaktivovat hru</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Aktivovat hru</button>
+                }
+            }
+
+        </div>
+    </div>
 }
 Objednávací kód: @DataKnihovna.Utility.Utilita.formalizer(Model.Id) <br />
 Název: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
@@ -60,22 +81,22 @@ DPH:@DataKnihovna.Utility.Utilita.formalizer(Model.Dph)<br />
 {
 
 
-<div class="html-code grid-of-images">
-    <div class="popup-gallery">
-        @if (ViewBag.obrazky != null)
-        {
-            foreach (Obrazek obrazek in ViewBag.obrazky)
+    <div class="html-code grid-of-images">
+        <div class="popup-gallery">
+            @if (ViewBag.obrazky != null)
             {
-                @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek","Hra", new {hra=Model.Id,ido = obrazek.Id},new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
-                <a href="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" title='      @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek","Hra", new {hra=Model.Id,ido = obrazek.Id},new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })<br/>
+                foreach (Obrazek obrazek in ViewBag.obrazky)
+                {
+                    @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek", "Hra", new { hra = Model.Id, ido = obrazek.Id }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })
+                    <a href="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" title='      @Ajax.ActionLink("Odstranit obrázek", "deleteObrazek","Hra", new {hra=Model.Id,ido = obrazek.Id},new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah" })<br/>
 '><img src="@Url.Content("~/uploads/hry/" + obrazek.Ikona)" width="75" height="75"></a>
-            }
+                }
 
-        }
+            }
+        </div>
     </div>
-</div>
-    
-<!-- #endregion Jssor Slider End -->
+
+    <!-- #endregion Jssor Slider End -->
 }
 
 

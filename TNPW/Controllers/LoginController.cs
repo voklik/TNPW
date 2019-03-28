@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -20,10 +22,15 @@ namespace TNPW.Controllers
         [HttpPost]
         public ActionResult SignIn(string login, string password, bool trvale)
         {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(password);
+            Byte[] encodedBytes = md5.ComputeHash(originalBytes);
 
+            password = BitConverter.ToString(encodedBytes);
             if (Membership.ValidateUser(login, password))
             {
-                Ucet ucet = new UcetDao().GetByLoginAndPassword(login, password);
+              
+                                Ucet ucet = new UcetDao().GetByLoginAndPassword(login, password);
 
                 if (ucet.Aktivovano == false)
                 {
@@ -47,7 +54,7 @@ namespace TNPW.Controllers
             TempData["error"] = "Login nebo heslo jsou špatně";
             return RedirectToAction("LoginPage");
         }
-
+       
         public ActionResult SignOut()
         {
             TempData["odhlasen"] = "uživatel byl odhlášen";

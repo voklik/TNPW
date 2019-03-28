@@ -9,7 +9,7 @@
 <h2>Objednavky</h2>
 
 
-@using (Ajax.BeginForm("searchObjednavkaCislo", new AjaxOptions() { UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
+@using (Ajax.BeginForm("searchObjednavkaCislo", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "Obsah", InsertionMode = InsertionMode.Replace }))
 {
     <input type="text" autocomplete="off" class="form-control" placeholder="Vyhledat podle názvu hry" id="searchBoxNazev" name="nazev" />
 
@@ -72,7 +72,8 @@
 
                         </td>
                         <td>
-                           @obj.Cislo
+                            <a href="@Url.Action("DetailObjednavky", "Objednavka", new {id = obj.Id})">         @obj.Cislo</a>
+                  
                         </td>
                         <td>
                             @obj.CenaCelkem

@@ -23,6 +23,14 @@ namespace DataKnihovna.DAO
                 .List<Hra>();
 
         }
+        public IList<Hra> SearchName2(string query)
+        {
+            return session.CreateCriteria<Hra>()
+                .Add((Restrictions.Like("Nazev", string.Format("%{0}%", query))))
+                .Add(Restrictions.Eq("Aktivovano", true))
+                .List<Hra>();
+
+        }
         public IList<Hra> GetByPlatforma(int id, out int totalItems, Boolean vse)
         {
           

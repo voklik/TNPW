@@ -50,11 +50,13 @@ namespace TNPW.Areas.Administrativa.Controllers
 
             return View(objednavka);
         }
+        [HttpPost]
         public ActionResult PridatPolozku(int id)
         {
             ViewBag.id = id;
             return View();
         }
+
         public ActionResult EditObjednavky(int id)
         {
 
@@ -65,7 +67,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             Objednavka objednavka = objednavkaDao.GetById(id);
             return View(objednavka);
         }
-     
+        [HttpPost]
         public ActionResult edit(Objednavka objednavka)
         {
             //PlatetbniMoznostDao platetbniMoznostDao= new PlatetbniMoznostDao();
@@ -102,6 +104,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return View(polozka);
         }
 
+        [HttpPost]
         public ActionResult editPolozka(PolozkaObjednavka polozka)
         {
             if (ModelState.IsValid)
@@ -113,10 +116,12 @@ namespace TNPW.Areas.Administrativa.Controllers
             }
             else
             {
+                ViewBag.stavy = new StavDao().getMezi(false, 8, 12);
                 return View("EditPolozky",polozka);
             }
-        
+
         }
+        [HttpPost]
         public ActionResult SearchProPolozku(string nazev,int? id)
         {
             int celkem;
@@ -127,7 +132,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             ViewBag.objednavkaid = id;
             return PartialView("PridatPolozkuAjax", ucty);
         }
-
+        [HttpPost]
         public ActionResult addPolozku(int idhra ,int idobjednavka)
         {
 
@@ -139,6 +144,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             polozka.Mnozstvi=1;
             polozka.ObjednavkaID = idobjednavka;
             polozka.TehdejsiCena = hra.aktualniCenasDPH();
+            polozka.Stav = new StavDao().GetById(8);
             polozka.Aktivovano = true;
             ObjednavkaDao objednavkaDao = new ObjednavkaDao();
             Objednavka objednavka = objednavkaDao.GetById(idobjednavka);
@@ -149,9 +155,10 @@ namespace TNPW.Areas.Administrativa.Controllers
             objednavka.prepocet();
 
             objednavkaDao.Update(objednavka);
-            return RedirectToAction("DetailObjednavky", objednavka.Id);
+            return RedirectToAction("DetailObjednavky", new { id = objednavka.Id });
             //return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
+        [HttpPost]
         public ActionResult deletePolozku(int id)
         {
 
@@ -160,7 +167,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             ObjednavkaDao objednavkaDao=new ObjednavkaDao();
             Objednavka objednavka = objednavkaDao.GetById(polozka.ObjednavkaID);
             StavDao stavDao = new StavDao();
-            polozka.Stav = stavDao.GetById(7);
+            polozka.Stav = stavDao.GetById(9);
             polozkaObjednavkaDao.Update(polozka);
            
 
@@ -171,6 +178,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return JavaScript("location.reload(true)");
            //return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
+        [HttpPost]
         public ActionResult prepocet(int id)
         {
 
@@ -192,7 +200,7 @@ namespace TNPW.Areas.Administrativa.Controllers
 
 
 
-       
+        [HttpPost]
         public ActionResult searchObjednavkaCislo(string id)
         {
             int celkem;

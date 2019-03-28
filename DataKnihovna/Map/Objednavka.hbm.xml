@@ -7,7 +7,11 @@
     <id name="Id" column ="id">
       <generator class="native" />
     </id>
- 
+    <property name="Jmeno" column="jmeno" />
+    <property name="Prijmeni" column="prijmeni" />
+
+    <property name="Email" column="email" />
+    <property name="Telefon" column="telefon" />
     <property name="IdUser" column="uzivatel" />
     <property name="CenaDopravy" column="cenaDopravy" />
     <property name="CenaPlatby" column="cenaPlatby" />

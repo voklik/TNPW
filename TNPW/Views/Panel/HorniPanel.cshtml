@@ -2,6 +2,8 @@
 @{
   
 }
+
+
 <a class="navbar-brand" href="#">Start Bootstrap</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -16,12 +18,12 @@
 
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Platforma","Platforma")">Platformy</a>
+            <a class="nav-link" href="@Url.Action("Platforma","Platforma")">Seznam Platforem</a>
 
 
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Vydavatel","Vydavatel")">Vydavatelé</a>
+            <a class="nav-link" href="@Url.Action("Vydavatel","Vydavatel")">Seznam Vydavatelů</a>
 
 
         </li>
@@ -37,17 +39,29 @@
   
         @if (ViewBag.kosik != null)
         {<li class="nav-item">
-             <a class="nav-link" href="#">@ViewBag.kosik</a>
+             <a class="nav-link" href="@Url.Action("Kosik","Kos")">@ViewBag.kosik</a>
          </li>
 
             }
-        @if (User.Identity.Name != "")
+        else
         {
+            <li class="nav-item">
+                  <a class="nav-link" href="@Url.Action("Kosik","Kos")">Košík</a>
+              </li>
+
+        }
+        @if (User.Identity.Name != "")
+        { <li class="nav-item">
+              <a class="nav-link" href="@Url.Action("DetailUctu","Ucet")">Účet</a>
+
+
+          </li>
             <li class="nav-item">
                 <a class="nav-link" href="@Url.Action("SignOut","Login")">odhlásit se @User.Identity.Name</a>
 
 
             </li>
+           
         }
         
         </ul>

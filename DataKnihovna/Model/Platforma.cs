@@ -14,7 +14,6 @@ namespace DataKnihovna.Model
 
         public virtual Boolean Aktivovano { get; set; }
         [Required(ErrorMessage = "Tento prvek je vyžadován.")]
-        [Range(0, 100000, ErrorMessage = "Tento prvek musí být kladný > nastavena od 0 až 100 000 - Jen celá čísla")]
         public virtual String Nazev { get; set; }
         public Platforma()
         {

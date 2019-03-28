@@ -11,7 +11,13 @@
 }
 
 <h2>Editece kombinace možnosti - @Model.DopravaMoznost.Nazev + @Model.PlatbaMoznost.Nazev </h2>
+@if (TempData["error"] != null)
+{
+    <p>
+        @TempData["error"]
 
+    </p>
+}
 @using (Html.BeginForm("editatKM", "KombinaceMoznosti", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(x => x.Id)
@@ -57,14 +63,14 @@
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Požadovaný typ platby</label>
             <div class="col-sm-10">
-                @Html.DropDownListFor(x => x.PlatbaMoznost, new SelectList(@ViewBag.platby, "Id", "Nazev", "id"))
+                @Html.DropDownListFor(x => x.PlatbaMoznost.Id, new SelectList(@ViewBag.platby, "Id", "Nazev", "id"))
 
             </div>
         </div>
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">Požadovaný typ dopravy</label>
             <div class="col-sm-10">
-                @Html.DropDownListFor(x => x.DopravaMoznost, new SelectList(@ViewBag.dopravy, "Id", "Nazev", "id"))
+                @Html.DropDownListFor(x => x.DopravaMoznost.Id, new SelectList(@ViewBag.dopravy, "Id", "Nazev", "id"))
 
             </div>
         </div>

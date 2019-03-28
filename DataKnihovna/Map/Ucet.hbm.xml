@@ -11,6 +11,8 @@
     <property name="Prijmeni" column="prijmeni" />
     <property name="Login" column="login" />
     <property name="Prezdivka" column="prezdivka" />
+    <property name="Email" column="email" />
+    <property name="Telefon" column="telefon" />
     <property name="Heslo" column="heslo" />
     <property name="Aktivovano"  column="aktivovano" />
     <many-to-one name="Adresa"  column="adresa" foreign-key="adresa" not-null="false"/>

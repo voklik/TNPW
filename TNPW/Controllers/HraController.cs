@@ -17,212 +17,79 @@ namespace TNPW.Controllers
     public class HraController : Controller
     {
         // GET: Hra
-        public ActionResult Hra()
+        public ActionResult Hra(int? _page, int? _itemsOnPage, bool? vse)
         {
-            DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
-            IList<DataKnihovna.Model.Hra> hry = hryDao.GetlAll();
 
-            return View(hry);
+
+            int celkem;
+            bool _vse = vse.HasValue ? vse.Value : false;
+            int itemsOnPage = _itemsOnPage.HasValue ? _itemsOnPage.Value : Utilityzer.DefaultCountPerPage;
+            int page = _page.HasValue ? _page.Value : 1;
+            GameDao gameDao = new GameDao();
+            IList<Hra> ucty = gameDao.getPaged(itemsOnPage, page, out celkem, _vse);
+            ViewBag.pages = (int)Math.Ceiling((double)celkem / (double)itemsOnPage);
+            ViewBag.soucasna = page;
+            ViewBag.vse = vse;
+            ViewBag.perPage = itemsOnPage;
+            ViewBag.celkem = celkem;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("HraAjax", ucty);
+            }
+
+            return View(ucty);
+        }
+    
+        public ActionResult Search(string nazev)
+        {
+            int celkem;
+            GameDao hraDao = new GameDao();
+            IList<Hra> ucty = hraDao.SearchName(nazev);
+            celkem = ucty.Count;
+            ViewBag.celkem = celkem;
+            return View("Hra", ucty);
         }
 
+        public ActionResult SearchVydavatel(int id)
+        {
+            int celkem;
+            GameDao hraDao = new GameDao();
+            IList<Hra> ucty = hraDao.GetByVydavatel(id, out celkem, false);
+            celkem = ucty.Count;
+            ViewBag.celkem = celkem;
+            return View("Hra", ucty);
+        }
+        public ActionResult SearchPlatforma(int id)
+        {
+            int celkem;
+            GameDao hraDao = new GameDao();
+            IList<Hra> ucty = hraDao.GetByPlatforma(id, out celkem, false);
+            celkem = ucty.Count;
+            ViewBag.celkem = celkem;
+            return View("Hra", ucty);
+        }
+        public JsonResult searchHrabyNazev(string query)
+        {
+
+            DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
+            IList<Hra> hry = hryDao.SearchName2(query);
+            List<String> seznam = (from Hra u in hry select u.Nazev).ToList();
+            return Json(seznam, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult DetailHry(int id)
         {
             DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
             DataKnihovna.Model.Hra hra = hryDao.GetById(id);
+            ObrazekDao obrazekDao = new ObrazekDao();
+            IList<Obrazek> obrazky = obrazekDao.GetByGame(hra.Id);
+            ViewBag.obrazky = obrazky;
 
             return View(hra);
         }
 
-        public ActionResult NovaHra()
-        {
-            PlatformaDao platformaDao = new PlatformaDao();
-            IList<Platforma> platformy = platformaDao.GetlAll();
 
-            VydavatelDao vydavateleDao = new VydavatelDao();
-            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
-            ViewBag.platformy = platformy;
-            ViewBag.vydavatele = vydavatele;
-            return View();
-        }
-        [HttpPost] //aby nikdo nemohl to udělat přes url
-        public ActionResult EditHra(String  _id)
-        {
-            int id = int.Parse(_id);
-            GameDao gameDao = new GameDao();
-            Hra hra = gameDao.GetById(id);
-            PlatformaDao platformaDao = new PlatformaDao();
-            IList<Platforma> platformy = platformaDao.GetlAll();
-
-            VydavatelDao vydavateleDao = new VydavatelDao();
-            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
-            ViewBag.platformy = platformy;
-            ViewBag.vydavatele = vydavatele;
-            return View(hra);
-        }
-
-        [HttpPost]
-        public ActionResult Update(Hra hra, string _platforma, string _vydavatel, HttpPostedFileBase obrazek)
-        {
-
-            // tato zatracená část musí existovat, jinak by  if (ModelState.IsValid) řval, protože viewbagy by byly prázdné
-            PlatformaDao platformaDao = new PlatformaDao();
-            IList<Platforma> platformy = platformaDao.GetlAll();
-
-            VydavatelDao vydavateleDao = new VydavatelDao();
-            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
-            ViewBag.platformy = platformy;
-            ViewBag.vydavatele = vydavatele;
-
-
-            Vydavatel vyd;
-            Platforma plat;
-            // hra.Id = new GameDao().getNewId();
-          
-
-                if (ModelState.IsValid)
-            {
-              
-                    vyd = vydavateleDao.GetById(int.Parse(_vydavatel));
-                plat = platformaDao.GetById(int.Parse(_platforma));
-                hra.Vydavatel = vyd;
-                hra.Platforma = plat;
-                if (obrazek != null)
-                {
-                    if (obrazek.ContentType == "image/jpeg" || obrazek.ContentType == "image/png")
-                    {
-                        Image image = Image.FromStream(obrazek.InputStream);
-                        if (image.Height > 200 || image.Width > 200)
-                        {
-                            Image smallImage = ImageHelper.ScaleImage(image, 200, 200);
-
-                            Bitmap b = new Bitmap(smallImage);
-                            Guid guid = Guid.NewGuid();
-                            string imageName = guid.ToString() + ".jpg";
-                            b.Save(Server.MapPath("~/uploads/hry/" + imageName), ImageFormat.Jpeg);
-                            smallImage.Dispose();
-                            b.Dispose();
-                            if (hra.Ikona!=null)
-                            {
-                                System.IO.File.SetAttributes(Server.MapPath("~/uploads/hry/" + hra.Ikona), FileAttributes.Normal);
-                                System.IO.File.Delete(Server.MapPath("~/uploads/hry/" + hra.Ikona));
-
-                            }
-                          
-                            hra.Ikona = imageName;
-
-                        }
-                        else
-                        {
-                            hra.Ikona = Server.MapPath("~´/uploads/hry/" + obrazek.FileName);
-                            obrazek.SaveAs(Server.MapPath("~´/uploads/hry/" + obrazek.FileName));
-                        }
-                        GameDao game = new GameDao();
-                        game.Update(hra);
-                        TempData["message-success"] = "Hra " + hra.Nazev + "byla upravena.";
-                     
-                        
-                    }
-                }
-
-                return View("DetailHry",hra);
-               
-        }
-            else
-            {
-                return View("EditHra", hra);
-            }
-        }
-
-
-        [HttpPost]
-        public ActionResult Add(Hra hra, string _platforma, string _vydavatel, HttpPostedFileBase obrazek)
-        {
-
-
-            // tato zatracená část musí existovat, jinak by  if (ModelState.IsValid) řval, protože viewbagy by byly prázdné
-            PlatformaDao platformaDao = new PlatformaDao();
-            IList<Platforma> platformy = platformaDao.GetlAll();
-
-            VydavatelDao vydavateleDao = new VydavatelDao();
-            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
-            ViewBag.platformy = platformy;
-            ViewBag.vydavatele = vydavatele;
-
-
-            Vydavatel vyd;
-            Platforma plat;
-            // hra.Id = new GameDao().getNewId();
-
-            if (ModelState.IsValid)
-            {
-                vyd = vydavateleDao.GetById(int.Parse(_vydavatel));
-                plat = platformaDao.GetById(int.Parse(_platforma));
-                hra.Vydavatel = vyd;
-                hra.Platforma = plat;
-                if (obrazek != null)
-                {
-                    if (obrazek.ContentType == "image/jpeg" || obrazek.ContentType == "image/png")
-                    {
-                        Image image = Image.FromStream(obrazek.InputStream);
-                        if (image.Height > 200 || image.Width > 200)
-                        {
-                            Image smallImage = ImageHelper.ScaleImage(image, 200, 200);
-
-                            Bitmap b = new Bitmap(smallImage);
-                            Guid guid = Guid.NewGuid();
-                            string imageName = guid.ToString() + ".jpg";
-                            b.Save(Server.MapPath("~/uploads/hry/" + imageName), ImageFormat.Jpeg);
-                            smallImage.Dispose();
-                            b.Dispose();
-                            
-                            hra.Ikona = imageName;
-
-                        }
-                        else
-                        {
-                            obrazek.SaveAs(Server.MapPath("~´/uploads/hry/" + obrazek.FileName));
-                        }
-                    }
-                }
-
-                DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
-                hryDao.Create(hra);
-                TempData["message-succes"] = "Hra byla vytvořena";
-                return RedirectToAction("Hra");
-            }
-            else
-            {
-                return RedirectToAction("NovaHra", hra);
-            }
-        }
-
-
-
-        [HttpPost] //aby nikdo nemohl to udělat přes url
-        public ActionResult delete(String _id)
-        {
-       
-            int id =  int.Parse(_id);
-            GameDao gameDao= new GameDao();
-            Hra hra = gameDao.GetById(id);
-            
-                            if (hra.Ikona != null)
-                            {
-                                System.IO.File.SetAttributes(Server.MapPath("~/uploads/hry/" + hra.Ikona), FileAttributes.Normal);
-                                System.IO.File.Delete(Server.MapPath("~/uploads/hry/" + hra.Ikona));
-
-                            }
-
-                         
-                        TempData["message-success"] = "Hra " + hra.Nazev + "byla upravena.";
-
-            gameDao.Delete(hra);
-            return RedirectToAction("Hra");
-        }
-
-              
-
-            }
+    }
            
         }
 

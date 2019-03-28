@@ -24,6 +24,26 @@
 {
     @Html.Label("Hra nemá nastavenou ikonu")
 }
+@using (Html.BeginForm("aktivace2", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("_id", Model.Id)
+   
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @{
+                if (Model.Aktivovano)
+                {
+                    <button type="submit" class="btn btn-primary">Deaktivovat hru</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary">Aktivovat hru</button>
+                }
+            }
+
+        </div>
+    </div>
+}
 Objednávací kód: @DataKnihovna.Utility.Utilita.formalizer(Model.Id) <br />
 Název: @DataKnihovna.Utility.Utilita.formalizer(Model.Nazev)<br />
 Aktuální sleva: @DataKnihovna.Utility.Utilita.formalizer(Model.Sleva * 100)%<br />

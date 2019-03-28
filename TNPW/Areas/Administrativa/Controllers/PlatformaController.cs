@@ -43,7 +43,7 @@ namespace TNPW.Areas.Administrativa.Controllers
                 return View("NovaPlatforma", platforma);
             }
         }
-
+        [HttpPost]
         public ActionResult aktivace(String _id)
         {
 

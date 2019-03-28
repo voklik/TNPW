@@ -40,7 +40,37 @@ namespace TNPW.Areas.Administrativa.Controllers
 
             return View(ucty);
         }
-    public ActionResult DetailUzivatele(int id)
+    public ActionResult Edit(Ucet ucet)
+    {
+        ucet.RoleUzivatele = new RoleDao().GetById(ucet.RoleUzivatele.Id);
+
+        if (ModelState.IsValidField("Jmeno") && ModelState.IsValidField("Prijmeni") &&
+            ModelState.IsValidField("Prezdivka") && ModelState.IsValidField("Adresa.Mesto") &&
+            ModelState.IsValidField("Email") && ModelState.IsValidField("Telefon") && ModelState.IsValidField("Adresa.PSC") && ModelState.IsValidField("Adresa.UliceCP") &&
+            ModelState.IsValidField("Adresa.Zeme") && ModelState.IsValidField("Heslo") && ModelState.IsValidField("Login"))
+        {
+            UcetDao ucetDao = new UcetDao();
+            AdresaDao adresaDao = new AdresaDao();
+            MD5 md5 = new MD5CryptoServiceProvider();
+            Byte[] originalBytes = ASCIIEncoding.Default.GetBytes(ucet.Heslo);
+            Byte[] encodedBytes = md5.ComputeHash(originalBytes);
+
+            String newpassword = BitConverter.ToString(encodedBytes);
+            ucet.Heslo = newpassword;
+            ucetDao.Update(ucet);
+            adresaDao.Update(ucet.Adresa);
+            TempData["zprava"] = "Editace byla provedena";
+            return RedirectToAction("DetailUzivatele", new { id = ucet.Id });
+            }
+        else
+        {
+            TempData["zprava"] = "Editace nebyla provedena. Něco se pokazilo.";
+            return RedirectToAction("ed",new{id=ucet.Id});
+        }
+
+        //return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+    }
+        public ActionResult DetailUzivatele(int id)
     {
 
         UcetDao ucetDao = new UcetDao();
@@ -59,6 +89,8 @@ namespace TNPW.Areas.Administrativa.Controllers
 
         return View(ucet);
     }
+
+    [HttpPost]
         public ActionResult aktivace(int? _page, int? _itemsOnPage, bool? vse, int? showRole,string _id)
         {
 
@@ -77,6 +109,7 @@ namespace TNPW.Areas.Administrativa.Controllers
         return RedirectToAction("Uzivatele", new { _page = _page, vse = vse, _itemsOnPage = _itemsOnPage, showRole = showRole });
 
         }
+        [HttpPost]
         public ActionResult aktivace2( string _id)
         {
 
@@ -95,6 +128,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             return RedirectToAction("DetailUzivatele", new {id=id});
 
         }
+        [HttpPost]
         public ActionResult Search(string jmeno, string login, string prezdivka, string prijmeni )
         {
             int celkem;
@@ -104,6 +138,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             ViewBag.celkem = celkem;
             return View("Uzivatele",ucty);
         }
+        [HttpPost]
         public JsonResult searchUcetbyLogin(string query)
         {
 
@@ -112,6 +147,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             List<String> seznam = (from Ucet u in ucty select u.Login).ToList();
             return Json(seznam, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
         public JsonResult searchUcetbyPrijmeni(string query)
         {
 
@@ -120,7 +156,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             List<String> seznam = (from Ucet u in ucty select u.Prijmeni).ToList();
             return Json(seznam, JsonRequestBehavior.AllowGet);
         }
-
+        [HttpPost]
         public JsonResult searchUcetbyPrezdivka(string query)
         {
 
@@ -129,6 +165,7 @@ namespace TNPW.Areas.Administrativa.Controllers
             List<String> seznam = (from Ucet u in ucty select u.Prezdivka).ToList();
             return Json(seznam, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
         public JsonResult searchUcetbyJmeno(string query)
         {
 
@@ -136,6 +173,16 @@ namespace TNPW.Areas.Administrativa.Controllers
             IList<Ucet> ucty = ucetDao.SearchJmeno(query);
             List<String> seznam = (from Ucet u in ucty select u.Jmeno).ToList();
             return Json(seznam, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult nastaveniUctu(int id)
+        {
+            Ucet ucet = new UcetDao().GetById(id);
+
+
+            ViewBag.role = new RoleDao().GetlAll();
+            return View(ucet);
         }
     }
 

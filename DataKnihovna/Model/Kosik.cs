@@ -9,8 +9,10 @@ namespace DataKnihovna.Model
 {
     public class Kosik
     {
-        public  Kosik()
-        { }
+        public Kosik()
+        {
+            this.Polozky = new List<PolozkaKosik>();
+        }
 
         public Kosik(IList<PolozkaKosik> polozky)
         {
@@ -26,7 +28,7 @@ namespace DataKnihovna.Model
             Celkem = 0.0;
             foreach (PolozkaKosik polozkaKosik in Polozky)
             {
-                Celkem += polozkaKosik.Hra.aktualniCenasDPH();
+                Celkem += polozkaKosik.Hra.aktualniCenasDPH()* polozkaKosik.Mnozstvi;
             }
         }
 

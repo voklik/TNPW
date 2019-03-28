@@ -15,7 +15,12 @@ namespace DataKnihovna.Model
         public virtual int Id { get; set; }
 
         public virtual string Cislo { get; set; }
+        public virtual String Jmeno { get; set; }
+        public virtual String Prijmeni { get; set; }
 
+        public virtual String Telefon { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        public virtual String Email { get; set; }
         public bool Aktivovano { get; set; }
         public virtual int IdUser { get; set; }
         public virtual Stav Stav { get; set; }
@@ -41,7 +46,7 @@ namespace DataKnihovna.Model
             CenaCelkem = 0.0;
             foreach (PolozkaObjednavka polozka in Polozky)
             {
-                if(polozka.Stav.Id>=8 && polozka.Stav.Id<=12)
+                if(polozka.Stav.Id==8)
                 CenaCelkem =CenaCelkem+ (polozka.TehdejsiCena*polozka.Mnozstvi);
             }
 

@@ -1,0 +1,98 @@
+﻿@using System.Reflection.Emit
+@using DataKnihovna.Model
+@model Objednavka
+
+@{
+    ViewBag.Title = "Objednávka č." + Model.Cislo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Přehled Objednavky</h2>
+
+
+
+
+@Model.Adresa.Mesto <br />
+@Model.Adresa.PSC  <br />
+@Model.Adresa.UliceCP <br />
+@Model.Adresa.Zeme <br />
+
+
+
+
+<label>Cena za dopravu: @Model.CenaDopravy Kč</label> <br />
+<label>   Cena za způsob zaplacení: @Model.CenaPlatby Kč</label><br />
+<label>   Cena celkem: @Model.CenaCelkem Kč</label><br />
+
+<table class="table table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>Hra</th>
+            <th>Cena za ks</th>
+            <th>Množství</th>
+            <th>Stav</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PolozkaObjednavka polozka in Model.Polozky)
+        {
+            <tr bgcolor="@(polozka.Stav !=null? (polozka.Stav.Id>=9 &&polozka.Stav.Id<=12? "#854747":"") : "")">
+                <td>
+                    <a href="@Url.Action("DetailHry", "Hra", new {id = polozka.Hra.Id})">@polozka.Hra.Nazev</a>
+
+                </td>
+                <td>
+                    @polozka.TehdejsiCena Kč
+                </td>
+                <td>
+                    @polozka.Mnozstvi ks
+
+                </td>
+                <td>
+                    @if (polozka.Stav != null)
+                    {<label>@polozka.Stav.Nazev</label>}
+
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+
+
+</table>
+@using (Html.BeginForm("dokonceniObjednavky", "Kos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.Polozky, Model.Polozky)
+
+    @Html.HiddenFor(x => x.Adresa.Aktivovano, Model.Adresa.Aktivovano)
+    @Html.HiddenFor(x => x.Adresa.Mesto, Model.Adresa.Mesto)
+    @Html.HiddenFor(x => x.Adresa.UliceCP, Model.Adresa.UliceCP)
+    @Html.HiddenFor(x => x.Adresa.PSC, Model.Adresa.PSC)
+    @Html.HiddenFor(x => x.Adresa.Zeme, Model.Adresa.Zeme)
+
+    @Html.HiddenFor(x => x.Stav.Id, 1)
+    @Html.HiddenFor(x => x.Platba.Id, Model.Platba.Id)
+    @Html.HiddenFor(x => x.Doprava.Id, Model.Doprava.Id)
+
+
+    @Html.HiddenFor(x => x.Aktivovano, Model.Aktivovano)
+    @Html.HiddenFor(x => x.CenaCelkem, Model.CenaCelkem)
+    @Html.HiddenFor(x => x.CenaDopravy, Model.CenaDopravy)
+    @Html.HiddenFor(x => x.CenaPlatby, Model.CenaPlatby)
+    @Html.HiddenFor(x => x.Jmeno, Model.Jmeno)
+    @Html.HiddenFor(x => x.Prijmeni, Model.Prijmeni)
+    @Html.HiddenFor(x => x.Telefon, Model.Telefon)
+    @Html.HiddenFor(x => x.Email, Model.Email)
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary">Dokončit Objednavku</button>
+        </div>
+    </div>
+}

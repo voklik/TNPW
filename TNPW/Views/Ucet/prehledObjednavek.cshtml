@@ -1,0 +1,30 @@
+﻿@using DataKnihovna.Model
+@model IList<DataKnihovna.Model.Objednavka>
+@{
+
+}
+@if (Model.Count == 0)
+{
+    <Strong>Na tomto účtu se žádné objednávky neprovedli</Strong>
+}
+
+@foreach (Objednavka polozka in Model)
+{
+    <H4>Objednávka č. @polozka.Cislo </H4>
+
+    <label style="@(polozka.Stav.Id <= 3 || polozka.Stav.Id > 3 ? "" : "color:red")"> Stav: @polozka.Stav.Nazev</label>
+    <br />
+
+    <label>Cena za dopravu: @polozka.CenaDopravy Kč</label>
+    <br />
+    <label> Cena za způsob zaplacení: @polozka.CenaPlatby Kč</label>
+    <br />
+    <label> Cena celkem: @polozka.CenaCelkem Kč</label>
+    <br />
+
+    @Ajax.ActionLink("Detail Objednavky", "getPolozky", new { objednavka = polozka.Id }, new AjaxOptions() { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = string.Format("{0}", polozka.Id) })
+
+ 
+        <div id="@string.Format("{0}",polozka.Id)"></div>
+        <hr class="maly">
+        }

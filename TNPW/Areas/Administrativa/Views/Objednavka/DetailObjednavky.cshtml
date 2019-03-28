@@ -72,7 +72,7 @@ else
                 </td>
                     <td>
 
-                    @if (polozka.Stav == null )
+                    @if (polozka.Stav.Id == 8 )
                         {
             
                         @Ajax.ActionLink("Požádat o storno", "deletePolozku", "Objednavka", new { id = polozka.Id }, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "Obsah", HttpMethod = "POST" }, new { enctype = "multipart/form-data" })

@@ -16,7 +16,7 @@ namespace DataKnihovna.Model
     public virtual String Zeme { get; set; }
 
         public virtual String UliceCP { get; set; }
-    public virtual int PSC { get; set; }
+    public virtual string PSC { get; set; }
 
     }
 
