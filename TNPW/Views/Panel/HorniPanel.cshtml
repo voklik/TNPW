@@ -17,16 +17,6 @@
             <a class="nav-link" href="@Url.Action("Hra","Hra")">Hry</a>
 
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Platforma","Platforma")">Seznam Platforem</a>
-
-
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Vydavatel","Vydavatel")">Seznam Vydavatelů</a>
-
-
-        </li>
         @if (User.Identity.Name == "")
         {
             <li class="nav-item">

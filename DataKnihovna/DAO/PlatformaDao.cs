@@ -23,5 +23,7 @@ namespace DataKnihovna.DAO
                 .Add((Restrictions.Eq("Id", id)))
                 .UniqueResult<Hra>().Platforma;
         }
+      
+       
     }
 }

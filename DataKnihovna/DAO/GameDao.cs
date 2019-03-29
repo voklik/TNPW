@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataKnihovna.Model;
 using NHibernate.Criterion;
+using NHibernate.SqlCommand;
 
 namespace DataKnihovna.DAO
 {
@@ -113,18 +114,165 @@ namespace DataKnihovna.DAO
                         totalItems = session.CreateCriteria<Hra>()
                             .SetProjection((Projections.RowCount()))
                          
-                            .Add(Restrictions.Eq("Aktivovano", true)).UniqueResult<int>();
+                            .Add(Restrictions.Eq("Aktivovano", true))
+                           
+                            .UniqueResult<int>();
 
                         return session.CreateCriteria<Hra>()
                          
                             .Add(Restrictions.Eq("Aktivovano", true))
+                       
                             .AddOrder(Order.Asc("Nazev"))
                             .SetFirstResult((page - 1) * count)
                             .SetMaxResults(count)
                             .List<Hra>();
                     }
-                
-           
+
+
+        }
+        public IList<Hra> SearchName3(string query)
+        {
+            return session.CreateCriteria<Hra>("hra")
+                .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                    (Restrictions.And(Restrictions.Eq("v.Aktivovano", true), (Restrictions.Like("hra.Nazev", string.Format("%{0}%", query))))))
+                ))
+      
+                .List<Hra>();
+
+        }
+        public IList<Hra> GetByPlatforma2(int id, out int totalItems, Boolean vse)
+        {
+
+            if (vse == true)
+            {
+                totalItems = session.CreateCriteria<Hra>()
+                    .Add((Restrictions.Eq("Platforma.Id", id)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+
+
+                return session.CreateCriteria<Hra>()
+                    .Add((Restrictions.Eq("Platforma.Id", id)))
+                    .List<Hra>();
+            }
+            else
+            {
+                totalItems = session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                    ))
+                    .Add((Restrictions.Eq("p.Id", id)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+
+
+                return session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                    ))
+                  
+                    .Add((Restrictions.Eq("p.Id", id)))
+                    .List<Hra>();
+            }
+        }
+        public IList<Hra> GetByVydavatel2(int id, out int totalItems, Boolean vse)
+        {
+
+            if (vse == true)
+            {
+                totalItems = session.CreateCriteria<Hra>()
+                    .Add((Restrictions.Eq("Vydavatel.Id", id)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+
+
+                return session.CreateCriteria<Hra>()
+                    .Add((Restrictions.Eq("Vydavatel.Id", id)))
+                    .List<Hra>();
+            }
+            else
+            {
+                totalItems = session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                    ))
+                    .Add((Restrictions.Eq("v.Id", id)))
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+
+
+                return session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                    ))
+                    .Add((Restrictions.Eq("v.Id", id)))
+                    .List<Hra>();
+            }
+        }
+        public IList<Hra> getPaged2(int count, int page, out int totalItems, Boolean vse)
+        {
+
+            if (vse == true)
+            {
+                totalItems = session.CreateCriteria<Hra>()
+                    .SetProjection((Projections.RowCount())).UniqueResult<int>();
+
+                return session.CreateCriteria<Hra>()
+
+                    .AddOrder(Order.Asc("Nazev"))
+                    .SetFirstResult((page - 1) * count)
+                    .SetMaxResults(count)
+                    .List<Hra>();
+            }
+            else
+            {     
+                totalItems = session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                       ))
+                    
+                    .SetProjection((Projections.RowCount()))
+
+                   
+             
+              
+               
+                  
+                    .UniqueResult<int>();
+
+                return session.CreateCriteria<Hra>("hra")
+                    .CreateAlias("Vydavatel", "v", JoinType.InnerJoin)
+                    .CreateCriteria("Platforma", "p", JoinType.InnerJoin)
+                    .Add(Restrictions.And((Restrictions.Eq("hra.Aktivovano", true)), Restrictions.And((Restrictions.Eq("p.Aktivovano", true)),
+
+                        (Restrictions.Eq("v.Aktivovano", true)))
+                    ))
+
+                    .AddOrder(Order.Asc("Nazev"))
+                    .SetFirstResult((page - 1) * count)
+                    .SetMaxResults(count)
+                    .List<Hra>();
+            }
+
+
         }
     }
 }

@@ -26,7 +26,15 @@ namespace TNPW.Controllers
             int itemsOnPage = _itemsOnPage.HasValue ? _itemsOnPage.Value : Utilityzer.DefaultCountPerPage;
             int page = _page.HasValue ? _page.Value : 1;
             GameDao gameDao = new GameDao();
-            IList<Hra> ucty = gameDao.getPaged(itemsOnPage, page, out celkem, _vse);
+            IList<Hra> ucty = gameDao.getPaged2(itemsOnPage, page, out celkem, _vse);
+
+            //foreach (Hra item in ucty)
+            //{
+            //    if (item.Platforma.Aktivovano == false || item.Vydavatel.Aktivovano == false)
+            //        ucty.Remove(item);
+            //}
+
+           
             ViewBag.pages = (int)Math.Ceiling((double)celkem / (double)itemsOnPage);
             ViewBag.soucasna = page;
             ViewBag.vse = vse;
@@ -45,17 +53,17 @@ namespace TNPW.Controllers
         {
             int celkem;
             GameDao hraDao = new GameDao();
-            IList<Hra> ucty = hraDao.SearchName(nazev);
+            IList<Hra> ucty = hraDao.SearchName3(nazev);
             celkem = ucty.Count;
             ViewBag.celkem = celkem;
-            return View("Hra", ucty);
+            return PartialView("HraAjax", ucty);
         }
 
         public ActionResult SearchVydavatel(int id)
         {
             int celkem;
             GameDao hraDao = new GameDao();
-            IList<Hra> ucty = hraDao.GetByVydavatel(id, out celkem, false);
+            IList<Hra> ucty = hraDao.GetByVydavatel2(id, out celkem, false);
             celkem = ucty.Count;
             ViewBag.celkem = celkem;
             return View("Hra", ucty);
@@ -64,7 +72,7 @@ namespace TNPW.Controllers
         {
             int celkem;
             GameDao hraDao = new GameDao();
-            IList<Hra> ucty = hraDao.GetByPlatforma(id, out celkem, false);
+            IList<Hra> ucty = hraDao.GetByPlatforma2(id, out celkem, false);
             celkem = ucty.Count;
             ViewBag.celkem = celkem;
             return View("Hra", ucty);
@@ -73,7 +81,7 @@ namespace TNPW.Controllers
         {
 
             DataKnihovna.DAO.GameDao hryDao = new DataKnihovna.DAO.GameDao();
-            IList<Hra> hry = hryDao.SearchName2(query);
+            IList<Hra> hry = hryDao.SearchName3(query);
             List<String> seznam = (from Hra u in hry select u.Nazev).ToList();
             return Json(seznam, JsonRequestBehavior.AllowGet);
         }

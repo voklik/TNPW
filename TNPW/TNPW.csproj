@@ -224,8 +224,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HraController.cs" />
     <Compile Include="Controllers\PanelController.cs" />
-    <Compile Include="Controllers\PlatformaController.cs" />
-    <Compile Include="Controllers\VydavatelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,8 +238,6 @@
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Hra\DetailHry.cshtml" />
     <Content Include="Views\Panel\Panel.cshtml" />
-    <Content Include="Views\Platforma\Platforma.cshtml" />
-    <Content Include="Views\Vydavatel\Vydavatel.cshtml" />
     <Content Include="Views\Login\LoginPage.cshtml" />
     <Content Include="Views\Ucet\Registrace.cshtml" />
     <Content Include="Views\Panel\HorniPanel.cshtml" />

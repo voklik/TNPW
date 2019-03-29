@@ -15,11 +15,11 @@ namespace TNPW.Controllers
         public ActionResult Panel()
         {
             PlatformaDao platformaDao = new PlatformaDao();
-            IList<Platforma> platformy = platformaDao.GetlAll();
+            IList<Platforma> platformy = platformaDao.GetlAllAktiv();
         
             VydavatelDao vydavateleDao = new VydavatelDao();
-            IList<Vydavatel> vydavatele = vydavateleDao.GetlAll();
-            
+            IList<Vydavatel> vydavatele = vydavateleDao.GetlAllAktiv();
+
             ViewBag.platformy = platformy;
           ViewBag.vydavatele =vydavatele;
             return PartialView();

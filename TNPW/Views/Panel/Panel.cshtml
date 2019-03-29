@@ -34,7 +34,7 @@
 
     @foreach (Platforma plat in ViewBag.platformy)
     {
-        <a href="@Url.Action("SearchVydavatel","Hra",new {id=@plat.Id})" class="list-group-item">@plat.Nazev (@plat.Pocet)</a>
+        <a href="@Url.Action("SearchPlatforma","Hra",new {id=@plat.Id})" class="list-group-item">@plat.Nazev (@plat.Pocet)</a>
 
     }
 </div>
