@@ -93,7 +93,7 @@
                             @hra.Nazev
                         </td>
                         <td>
-                            @hra.Platforma.Id
+                            @hra.Platforma.Nazev
                         </td>
                         <td>
                             @hra.Cena
@@ -132,36 +132,7 @@
                                             </div>
                                         }
 
-                                        @* //aby nikdo nemohl to udělat přes url *@
-                                        @using (Html.BeginForm("delete", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                        {
-                                            @Html.Hidden("_id", @hra.Id)
-                                           
-                                           
-                                                    if (ViewBag.vse != null)
-                                                     {
-                                                         
-                                                         @Html.Hidden("vse", (string) @ViewBag.vse.ToString())
-                                                     }
-                                                    if(ViewBag.soucasna != null)
-
-                                            {
-                                                @Html.Hidden("_soucasna", (string) @ViewBag.soucasna.ToString())
-                                            }
-                                                     if(ViewBag.perPage != null)
-                                            {
-                                          
-                                                @Html.Hidden("_itemsOnPage", (string) @ViewBag.perPage.ToString())
-                                            }
-
-
-
-                                                            <div class="form-group">
-                                                                <div class="col-sm-offset-2 col-sm-10">
-                                                                    <button type="submit" class="btn btn-primary">Smazat hru</button>
-                                                                </div>
-                                                            </div>
-                                            }
+                                       
                                             @using (Html.BeginForm("aktivace", "Hra", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                             {
                                                 @Html.Hidden("_id", @hra.Id)

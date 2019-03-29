@@ -17,5 +17,13 @@ namespace TNPW.Controllers
       //      return View();
       return RedirectToAction("Hra", "Hra");
         }
+        public ActionResult error404()
+        {
+            return View();
+        }
+        public ActionResult kontakt()
+        {
+            return View();
+        }
     }
 }

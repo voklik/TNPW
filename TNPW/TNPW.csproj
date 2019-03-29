@@ -256,6 +256,8 @@
     <Content Include="Views\Kos\Zprava.cshtml" />
     <Content Include="Views\Kos\KombinaceMoznostiAjax.cshtml" />
     <Content Include="Views\Kos\vytvoritObjednavku.cshtml" />
+    <Content Include="Views\Home\error404.cshtml" />
+    <Content Include="Views\Home\kontakt.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,11 +27,19 @@ namespace DataKnihovna.Model
         {
             Celkem = 0.0;
             foreach (PolozkaKosik polozkaKosik in Polozky)
-            {
+            {if(polozkaKosik.Hra!=null)
                 Celkem += polozkaKosik.Hra.aktualniCenasDPH()* polozkaKosik.Mnozstvi;
             }
         }
 
+        public void vymazani()
+        {
+            foreach (PolozkaKosik polozkaKosik in Polozky)
+            {
+                if (polozkaKosik.Hra == null)
+                   Polozky.Remove(polozkaKosik);
+            }
+        }
        
     }
 }

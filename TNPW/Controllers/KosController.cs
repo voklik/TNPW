@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using DataKnihovna.DAO;
@@ -123,8 +124,9 @@ namespace TNPW.Controllers
                         {
                             
                             string[] ss = s.Split(',');
-                          if (Convert.ToInt32(ss[0]) == id) ;
+                          if (Convert.ToInt32(ss[0]) == id)
                             stare = Convert.ToInt32(ss[1]);
+                            break;
                         }
 
                         int nove = stare + mnozstvi;
@@ -172,7 +174,7 @@ namespace TNPW.Controllers
                 @ViewBag.PSC = ucet.Adresa.PSC;
                 @ViewBag.UliceCP = ucet.Adresa.UliceCP;
                 @ViewBag.Zeme = ucet.Adresa.Zeme;
-
+                kosik.vymazani();
                 return View(kosik);
             }
             else
@@ -220,7 +222,7 @@ namespace TNPW.Controllers
                     @ViewBag.PSC = ucet.Adresa.PSC;
                     @ViewBag.UliceCP = ucet.Adresa.UliceCP;
                     @ViewBag.Zeme = ucet.Adresa.Zeme;
-
+                    kosik.vymazani();
                     return View(kosik);
                 }
               
@@ -461,7 +463,15 @@ namespace TNPW.Controllers
 
 
          }
-            TempData["error"] = "Objednávka byla vytvořena č." +model.Cislo;
+   
+         model = objednavkaDao.GetById(model.Id);
+         if (model.Cislo==null)
+         {
+             model.Cislo = DateTime.Now.Day + " " + DateTime.Now.Month + DateTime.Now.Year + "/" + model.Id;
+         }
+
+         TNPW.utility.Utilityzer.SendingMail();
+            TempData["error"] = "Objednávka byla vytvořena č." +model.Cislo + ". Na Váš email byl poslán email";
             return View("Zprava");
         }
         public ActionResult KombinaceMoznosti()

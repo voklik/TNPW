@@ -15,7 +15,7 @@ namespace TNPW.Controllers
             {
                 DataKnihovna.DAO.PlatformaDao platformaDao = new DataKnihovna.DAO.PlatformaDao();
                 IList<DataKnihovna.Model.Platforma> hry = platformaDao.GetlAllAktiv();
-
+            
                 return View(hry);
             }
         }

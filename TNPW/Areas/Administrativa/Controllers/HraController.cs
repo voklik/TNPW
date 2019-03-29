@@ -396,7 +396,16 @@ namespace TNPW.Areas.Administrativa.Controllers
                         }
                         else
                         {
-                            obrazek.SaveAs(Server.MapPath("~´/uploads/hry/" + obrazek.FileName));
+                            Image smallImage = ImageHelper.ScaleImage(image, 200, 200);
+
+                            Bitmap b = new Bitmap(smallImage);
+                            Guid guid = Guid.NewGuid();
+                            string imageName = guid.ToString() + ".jpg";
+                            b.Save(Server.MapPath("~/uploads/hry/" + imageName), ImageFormat.Jpeg);
+                            smallImage.Dispose();
+                            b.Dispose();
+
+                            hra.Ikona = imageName;
                         }
                     }
                 }
